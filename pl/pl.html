@@ -1,0 +1,311 @@
+<!-- pl -->
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>NGỰ SẮC - Chi tiết sản phẩm</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;600;700&family=Cormorant+Garamond:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <nav class="site-nav">
+  <button class="nav-hamburger" id="hamburgerBtn" aria-label="Menu" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <a href="../index.html#home" class="site-nav-logo">NGỰ<span> SẮC</span></a>
+
+  <div class="site-nav-links">
+    <a href="../index.html#home">Trang chủ</a>
+    <a href="../index.html#ingredients">Thành phần</a>
+    <a href="../index.html#products" class="site-nav-cta">Xem các sản phẩm</a>
+  </div>
+
+  <button class="nav-search-btn" aria-label="Tìm kiếm">
+    <svg viewBox="0 0 24 24" fill="none">
+      <circle cx="11" cy="11" r="7"></circle>
+      <path d="M16.5 16.5L21 21"></path>
+    </svg>
+  </button>
+</nav>
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<div class="nav-drawer" id="navDrawer">
+  <a href="../index.html#home">Trang chủ</a>
+  <a href="../index.html#ingredients">Thành phần</a>
+  <a href="../index.html#products">Xem các sản phẩm</a>
+</div>
+
+  <main class="product-detail-list">
+    <section class="product-detail" id="phan-nu"></section>
+    <section class="product-detail" id="phan-ma"></section>
+    <section class="product-detail" id="son-duong"></section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer-grid">
+      <div>
+        <div class="site-footer-logo">NGỰ<span> SẮC</span></div>
+        <p>Mỹ phẩm thiên nhiên lấy cảm hứng từ Phấn Nụ Cung Đình Huế.</p>
+      </div>
+
+      <div>
+        <h4>Công ty</h4>
+        <a href="../index.html#home">Trang chủ</a>
+        <a href="../index.html#ingredients">Thành phần</a>
+        <a href="../index.html#products">Sản phẩm</a>
+      </div>
+
+      <div>
+        <h4>Liên hệ</h4>
+        <a href="mailto:hello@ngusac.vn">hello@ngusac.vn</a>
+        <a href="tel:+84000000000">+84 000 000 000</a>
+        <a href="../index.html#home">Huế, Việt Nam</a>
+      </div>
+    </div>
+
+    <div class="site-footer-bottom">
+      © 2026 NGỰ SẮC. Nội dung demo phục vụ giới thiệu dự án.
+    </div>
+  </footer>
+
+  <script>
+/* =================================================
+   NGỰ SẮC SEARCH FINAL
+================================================= */
+
+(function () {
+  function initNguSacSearch() {
+    const nav = document.querySelector('.nav, .site-nav');
+    if (!nav) return;
+
+    document
+      .querySelectorAll('.search-panel, .search-backdrop, .ng-nav-search-box, .ng-search-suggest')
+      .forEach(function (el) {
+        el.remove();
+      });
+
+    if (!document.querySelector('.nav-search-btn')) {
+      const btn = document.createElement('button');
+      btn.className = 'nav-search-btn';
+      btn.type = 'button';
+      btn.setAttribute('aria-label', 'Tìm kiếm');
+      btn.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none">
+          <circle cx="11" cy="11" r="7"></circle>
+          <path d="M16.5 16.5L21 21"></path>
+        </svg>
+      `;
+      nav.appendChild(btn);
+    }
+
+    const cleanPath = location.pathname.replace(/\\/g, '/');
+    const isSubPage = cleanPath.includes('/nl/') || cleanPath.includes('/pl/');
+
+    const imgPrefix = isSubPage ? '../' : '';
+    const productLinkPrefix = isSubPage ? '../pl/pl.html' : 'pl/pl.html';
+
+    const products = [
+      {
+        name: 'Phấn Phủ Ngự Sắc',
+        desc: 'Phấn phủ thiên nhiên, nền mịn nhẹ và cảm hứng Huế.',
+        image: imgPrefix + 'assets/pl/products/phanphu.png',
+        link: productLinkPrefix + '#phan-nu',
+        keywords: 'phan phu phấn phủ phan nu phấn nụ powder nền mịn'
+      },
+      {
+        name: 'Phấn Má Hồng Ngự Sắc',
+        desc: 'Má hồng thiên nhiên, sắc hồng nhẹ và dễ tán.',
+        image: imgPrefix + 'assets/pl/products/phanma.png',
+        link: productLinkPrefix + '#phan-ma',
+        keywords: 'phan ma phấn má má hồng blush hồng tự nhiên'
+      },
+      {
+        name: 'Son Dưỡng Ngự Sắc',
+        desc: 'Son dưỡng từ dầu dừa, sáp ong, vitamin E và vaseline.',
+        image: imgPrefix + 'assets/pl/products/sonduong.png',
+        link: productLinkPrefix + '#son-duong',
+        keywords: 'son duong son dưỡng môi dầu dừa sáp ong vitamin e vaseline'
+      }
+    ];
+
+    function normalizeText(text) {
+      return text
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/đ/g, 'd')
+        .replace(/Đ/g, 'D')
+        .toLowerCase();
+    }
+
+    function createUI() {
+      if (!document.querySelector('.ngs-search-form')) {
+        const form = document.createElement('form');
+        form.className = 'ngs-search-form';
+        form.innerHTML = `
+          <input
+            class="ngs-search-input"
+            type="search"
+            placeholder="Tìm sản phẩm Ngự Sắc"
+            autocomplete="off"
+          />
+
+          <button class="ngs-search-close" type="button" aria-label="Đóng tìm kiếm">×</button>
+
+          <button class="ngs-search-submit" type="submit" aria-label="Tìm kiếm">
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="M16.5 16.5L21 21"></path>
+            </svg>
+          </button>
+        `;
+        document.body.appendChild(form);
+      }
+
+      if (!document.querySelector('.ngs-search-popover')) {
+        const popover = document.createElement('section');
+        popover.className = 'ngs-search-popover';
+        popover.innerHTML = `
+          <div class="ngs-search-head">
+            <p class="ngs-search-title">Có thể bạn sẽ thích</p>
+            <p class="ngs-search-link">
+              Tìm kiếm trong <a href="${productLinkPrefix}#phan-nu">Sản phẩm Ngự Sắc</a>
+            </p>
+          </div>
+
+          <div class="ngs-search-grid"></div>
+          <p class="ngs-search-empty">Không tìm thấy sản phẩm phù hợp.</p>
+        `;
+        document.body.appendChild(popover);
+      }
+    }
+
+    function renderProducts(keyword) {
+      const popover = document.querySelector('.ngs-search-popover');
+      const grid = document.querySelector('.ngs-search-grid');
+
+      if (!popover || !grid) return;
+
+      const cleanKeyword = normalizeText((keyword || '').trim());
+
+      const filtered = products.filter(function (product) {
+        const haystack = normalizeText(
+          product.name + ' ' + product.desc + ' ' + product.keywords
+        );
+
+        return !cleanKeyword || haystack.includes(cleanKeyword);
+      });
+
+      popover.classList.toggle('no-result', filtered.length === 0);
+
+      grid.innerHTML = filtered.map(function (product) {
+        return `
+          <a class="ngs-search-card" href="${product.link}">
+            <img src="${product.image}" alt="${product.name}">
+            <div>
+              <strong class="ngs-search-name">${product.name}</strong>
+              <span class="ngs-search-desc">${product.desc}</span>
+            </div>
+            <span class="ngs-search-arrow">›</span>
+          </a>
+        `;
+      }).join('');
+    }
+
+    function openSearch() {
+      createUI();
+
+      const input = document.querySelector('.ngs-search-input');
+      const form = document.querySelector('.ngs-search-form');
+      const closeBtn = document.querySelector('.ngs-search-close');
+
+      document.body.classList.add('ngs-search-open');
+      renderProducts('');
+
+      setTimeout(function () {
+        input.focus();
+      }, 100);
+
+      input.oninput = function () {
+        renderProducts(input.value);
+      };
+
+      closeBtn.onclick = closeSearch;
+
+      form.onsubmit = function (event) {
+        event.preventDefault();
+
+        const firstProduct = document.querySelector('.ngs-search-card');
+        if (firstProduct) {
+          window.location.href = firstProduct.getAttribute('href');
+        }
+      };
+    }
+
+    function closeSearch() {
+      document.body.classList.remove('ngs-search-open');
+
+      const input = document.querySelector('.ngs-search-input');
+      if (input) input.value = '';
+    }
+
+    document.addEventListener('click', function (event) {
+      const searchBtn = event.target.closest('.nav-search-btn');
+      const searchForm = event.target.closest('.ngs-search-form');
+      const searchPopover = event.target.closest('.ngs-search-popover');
+
+      if (searchBtn) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        openSearch();
+        return;
+      }
+
+      if (event.target.closest('.ngs-search-card')) {
+        closeSearch();
+        return;
+      }
+
+      if (
+        document.body.classList.contains('ngs-search-open') &&
+        !searchForm &&
+        !searchPopover &&
+        !searchBtn
+      ) {
+        closeSearch();
+      }
+    }, true);
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') closeSearch();
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initNguSacSearch);
+  } else {
+    initNguSacSearch();
+  }
+})();
+</script>
+
+  <script src="../text/pl/text.js" defer></script>
+  <script src="script.js" defer></script>
+</body>
+</html>

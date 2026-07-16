@@ -1,0 +1,2 @@
+document.querySelectorAll('a[href*="/account/logout"]').forEach(item=>{item.addEventListener("click",function(){localStorage.removeItem("emailYN")})});
+//# sourceMappingURL=/cdn/shop/t/4/assets/custom-common-script.js.map?v=69375814973143796731770885081
