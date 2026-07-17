@@ -35,23 +35,30 @@ window.NGU_SAC_INDEX_TEXT = {
     {
       id: 'phan-nu',
       name: 'Phấn Phủ',
-      image: 'assets/pl/products/phanphu.png',
+      image: 'assets/index/hinhmn/tranhu.png',
       alt: 'Phấn Phủ',
       link: 'pl/pl.html#phan-nu'
     },
     {
       id: 'phan-ma',
       name: 'Phấn Má Hồng',
-      image: 'assets/pl/products/phanma.png',
+      image: 'assets/index/hinhmn/duykhang.png',
       alt: 'Phấn Má',
       link: 'pl/pl.html#phan-ma'
     },
     {
       id: 'son-duong',
       name: 'Son Dưỡng',
-      image: 'assets/pl/products/sonduong.png',
+      image: 'assets/index/hinhmn/kimanh.png',
       alt: 'Son Dưỡng',
       link: 'pl/pl.html#son-duong'
+    },
+    {
+      id: 'thanh-phan',
+      name: 'Thành Phần',
+      image: 'assets/index/hinhmn/tangiang.png',
+      alt: 'Thành Phần',
+      link: 'nl/ml.html'
     }
   ]
 },
