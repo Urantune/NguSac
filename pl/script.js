@@ -343,6 +343,160 @@ function renderProductSection(section, product) {
   `;
 }
 
+const plShowcaseDetails = {
+  'phan-nu': {
+    eyebrow: 'Phấn Phủ Thiên Nhiên',
+    title: 'Phấn Phủ Ngự Sắc',
+    subtitle: 'Phấn phủ làm mịn – Kiềm dầu nhẹ – Cảm hứng từ Phấn Nụ Cung Đình Huế',
+    description: 'Chất phấn mỏng nhẹ giúp nền da khô thoáng, mịn màng và tự nhiên.',
+    gallery: [
+      '../assets/pl/products/phanphu.png',
+      '../assets/index/hinhmn/tranhu.png',
+      '../assets/nl/detail/nd_caolanhmypham.png',
+      '../assets/nl/detail/nd_botgaost25.png',
+      '../assets/nl/detail/nd_thaomoc.png'
+    ]
+  },
+  'phan-ma': {
+    eyebrow: 'Phấn Má Hồng Thiên Nhiên',
+    title: 'Phấn Má Hồng Ngự Sắc',
+    subtitle: 'Sắc hồng tự nhiên – Hiệu ứng tươi tắn – Cảm hứng cung đình Huế',
+    description: 'Chất phấn nhẹ nhàng giúp gương mặt rạng rỡ, mềm mại và phù hợp với phong cách trang điểm hằng ngày.',
+    gallery: [
+      '../assets/pl/products/phanma.png',
+      '../assets/index/hinhmn/duykhang.png',
+      '../assets/nl/detail/nd_botmaukhoang.png',
+      '../assets/nl/detail/nd_tinhchathoalai.png',
+      '../assets/nl/detail/nd_thaomoc.png'
+    ]
+  },
+  'son-duong': {
+    eyebrow: 'Son Dưỡng Từ Dừa',
+    title: 'Son Dưỡng Ngự Sắc',
+    subtitle: 'Dưỡng ẩm mềm môi – Hạn chế khô ráp – Cảm hứng vẻ đẹp Việt',
+    description: 'Công thức từ dầu dừa, sáp ong và vitamin E giúp đôi môi mềm mại, ẩm mượt mỗi ngày.',
+    gallery: [
+      '../assets/pl/products/sonduong.png',
+      '../assets/index/hinhmn/kimanh.png',
+      '../assets/nl/detail/nd_daudua.png',
+      '../assets/nl/detail/nd_sapong.png',
+      '../assets/nl/detail/nd_vitamine.png'
+    ]
+  }
+};
+
+renderProductSection = function (section) {
+  const item = plShowcaseDetails[section.id];
+  if (!item) return;
+
+  section.innerHTML = `
+    <div class="pl-showcase" data-index="0">
+      <button class="pl-previous" type="button" aria-label="Xem ảnh trước">
+        <img src="${item.gallery[item.gallery.length - 1]}" alt="Ảnh trước của ${item.title}">
+      </button>
+
+      <div class="pl-current">
+        <div class="pl-current-track">
+          ${item.gallery.map((src, index) => `
+            <figure class="pl-slide" data-slide="${index}">
+              <img src="${src}" alt="${item.title} - ảnh ${index + 1}" draggable="false">
+            </figure>
+          `).join('')}
+        </div>
+
+        <button class="pl-fullscreen" type="button" aria-label="Xem ảnh toàn màn hình">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5M3 8l6-6M21 8l-6-6M3 16l6 6M21 16l-6 6"/>
+          </svg>
+        </button>
+
+        <div class="pl-dots" aria-label="Chọn ảnh sản phẩm">
+          ${item.gallery.map((_, index) => `
+            <button class="pl-dot ${index === 0 ? 'is-active' : ''}" type="button" data-go="${index}" aria-label="Xem ảnh ${index + 1}"></button>
+          `).join('')}
+        </div>
+      </div>
+
+      <div class="pl-showcase-info">
+        <p class="pl-showcase-eyebrow">${item.eyebrow}</p>
+        <h1>${item.title}</h1>
+        <p class="pl-showcase-subtitle">${item.subtitle}</p>
+        <p class="pl-showcase-description">${item.description}</p>
+      </div>
+    </div>
+
+    <div class="pl-lightbox" role="dialog" aria-modal="true" aria-label="Ảnh sản phẩm toàn màn hình" hidden>
+      <button class="pl-lightbox-close" type="button" aria-label="Đóng">×</button>
+      <img src="${item.gallery[0]}" alt="${item.title}">
+    </div>
+  `;
+};
+
+function setShowcaseIndex(showcase, nextIndex) {
+  const slides = showcase.querySelectorAll('.pl-slide');
+  if (!slides.length) return;
+
+  const index = (nextIndex + slides.length) % slides.length;
+  const track = showcase.querySelector('.pl-current-track');
+  const previousImage = showcase.querySelector('.pl-previous img');
+
+  showcase.dataset.index = String(index);
+  track.style.transform = `translateX(-${index * 100}%)`;
+  previousImage.src = slides[(index - 1 + slides.length) % slides.length].querySelector('img').src;
+
+  showcase.querySelectorAll('.pl-dot').forEach((dot, dotIndex) => {
+    dot.classList.toggle('is-active', dotIndex === index);
+  });
+}
+
+document.addEventListener('pointerdown', function (event) {
+  const current = event.target.closest('.pl-current');
+  if (!current || event.target.closest('button')) return;
+  current.dataset.dragStart = String(event.clientX);
+  current.setPointerCapture?.(event.pointerId);
+});
+
+document.addEventListener('pointerup', function (event) {
+  const current = event.target.closest('.pl-current');
+  if (!current || current.dataset.dragStart === undefined) return;
+
+  const distance = event.clientX - Number(current.dataset.dragStart);
+  delete current.dataset.dragStart;
+  if (Math.abs(distance) < 45) return;
+
+  const showcase = current.closest('.pl-showcase');
+  const index = Number(showcase.dataset.index || 0);
+  setShowcaseIndex(showcase, distance < 0 ? index + 1 : index - 1);
+});
+
+document.addEventListener('click', function (event) {
+  const dot = event.target.closest('.pl-dot');
+  if (dot) setShowcaseIndex(dot.closest('.pl-showcase'), Number(dot.dataset.go));
+
+  const previous = event.target.closest('.pl-previous');
+  if (previous) {
+    const showcase = previous.closest('.pl-showcase');
+    setShowcaseIndex(showcase, Number(showcase.dataset.index || 0) - 1);
+  }
+
+  const fullscreen = event.target.closest('.pl-fullscreen');
+  if (fullscreen) {
+    const section = fullscreen.closest('.product-detail');
+    const showcase = fullscreen.closest('.pl-showcase');
+    const lightbox = section.querySelector('.pl-lightbox');
+    const index = Number(showcase.dataset.index || 0);
+    lightbox.querySelector('img').src = showcase.querySelectorAll('.pl-slide img')[index].src;
+    lightbox.hidden = false;
+    document.body.classList.add('pl-lightbox-open');
+  }
+
+  if (event.target.closest('.pl-lightbox-close') || event.target.classList.contains('pl-lightbox')) {
+    const lightbox = event.target.closest('.pl-lightbox');
+    lightbox.hidden = true;
+    document.body.classList.remove('pl-lightbox-open');
+  }
+});
+
 function applyProductText() {
   const text = window.NGU_SAC_PL_TEXT;
   if (!text) return;
@@ -451,443 +605,6 @@ document.addEventListener('DOMContentLoaded', function () {
   document.addEventListener('keydown', function (event) {
     if (event.key === 'Escape') {
       closeDrawer();
-    }
-  });
-});
-
-/* =================================================
-   SEARCH PANEL GIỐNG DIOR - HOME / NL / PL
-================================================= */
-
-document.addEventListener('DOMContentLoaded', function () {
-  const searchButtons = document.querySelectorAll('.nav-search-btn');
-
-  if (!searchButtons.length) return;
-
-  const isSubPage =
-    location.pathname.includes('/nl/') ||
-    location.pathname.includes('/pl/');
-
-  const imgPrefix = isSubPage ? '../' : '';
-  const productLinkPrefix = isSubPage ? '../pl/pl.html' : 'pl/pl.html';
-
-  const products = [
-    {
-      id: 'phan-nu',
-      name: 'Phấn Phủ Ngự Sắc',
-      desc: 'Phấn phủ thiên nhiên - nền mịn nhẹ, cảm hứng Huế',
-      image: imgPrefix + 'assets/pl/products/phanphu.png',
-      link: productLinkPrefix + '#phan-nu',
-      keywords: 'phan phu phấn phủ phan nu phấn nụ powder nen min'
-    },
-    {
-      id: 'phan-ma',
-      name: 'Phấn Má Hồng Ngự Sắc',
-      desc: 'Má hồng thiên nhiên - sắc hồng nhẹ, dễ tán',
-      image: imgPrefix + 'assets/pl/products/phanma.png',
-      link: productLinkPrefix + '#phan-ma',
-      keywords: 'phan ma phấn má má hồng blush hong tu nhien'
-    },
-    {
-      id: 'son-duong',
-      name: 'Son Dưỡng Ngự Sắc',
-      desc: 'Son dưỡng từ dầu dừa, sáp ong, vitamin E và vaseline',
-      image: imgPrefix + 'assets/pl/products/sonduong.png',
-      link: productLinkPrefix + '#son-duong',
-      keywords: 'son duong son dưỡng moi dau dua sap ong vitamin e vaseline'
-    }
-  ];
-
-  function createSearchPanel() {
-    if (document.querySelector('.search-panel')) return;
-
-    const backdrop = document.createElement('div');
-    backdrop.className = 'search-backdrop';
-    backdrop.id = 'searchBackdrop';
-
-    const panel = document.createElement('section');
-    panel.className = 'search-panel';
-    panel.id = 'searchPanel';
-    panel.setAttribute('aria-hidden', 'true');
-
-    panel.innerHTML = `
-      <div class="search-panel-top">
-        <div class="search-panel-logo">NGỰ SẮC</div>
-
-        <form class="search-form" id="searchForm">
-          <input
-            class="search-input"
-            id="searchInput"
-            type="search"
-            placeholder="Tìm sản phẩm Ngự Sắc"
-            autocomplete="off"
-          />
-
-          <button class="search-close" type="button" id="searchClose" aria-label="Đóng tìm kiếm">×</button>
-
-          <button class="search-submit" type="submit" aria-label="Tìm kiếm">
-            <svg viewBox="0 0 24 24" fill="none">
-              <circle cx="11" cy="11" r="7"></circle>
-              <path d="M16.5 16.5L21 21"></path>
-            </svg>
-          </button>
-        </form>
-      </div>
-
-      <div class="search-panel-body">
-        <div>
-          <p class="search-suggest-title">Có thể bạn sẽ thích</p>
-          <div class="search-product-grid" id="searchProductGrid"></div>
-          <p class="search-empty" id="searchEmpty">Không tìm thấy sản phẩm phù hợp.</p>
-        </div>
-
-        <div class="search-category">
-          <p class="search-category-text">
-            Tìm kiếm trong <a href="${productLinkPrefix}#phan-nu">Sản phẩm Ngự Sắc</a>
-          </p>
-        </div>
-      </div>
-    `;
-
-    document.body.appendChild(backdrop);
-    document.body.appendChild(panel);
-  }
-
-  function removeVietnamese(str) {
-    return str
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/đ/g, 'd')
-      .replace(/Đ/g, 'D')
-      .toLowerCase();
-  }
-
-  function renderProducts(keyword = '') {
-    const grid = document.getElementById('searchProductGrid');
-    const panel = document.getElementById('searchPanel');
-
-    if (!grid || !panel) return;
-
-    const cleanKeyword = removeVietnamese(keyword.trim());
-
-    const filteredProducts = products.filter(function (product) {
-      const searchText = removeVietnamese(
-        product.name + ' ' + product.desc + ' ' + product.keywords
-      );
-
-      return !cleanKeyword || searchText.includes(cleanKeyword);
-    });
-
-    panel.classList.toggle('no-result', filteredProducts.length === 0);
-
-    grid.innerHTML = filteredProducts
-      .map(function (product) {
-        return `
-          <a class="search-product-card" href="${product.link}">
-            <img class="search-product-img" src="${product.image}" alt="${product.name}">
-            <div>
-              <div class="search-product-name">${product.name}</div>
-              <div class="search-product-desc">${product.desc}</div>
-            </div>
-          </a>
-        `;
-      })
-      .join('');
-
-    grid.querySelectorAll('a').forEach(function (link) {
-      link.addEventListener('click', closeSearch);
-    });
-  }
-
-  function openSearch() {
-    createSearchPanel();
-
-    const panel = document.getElementById('searchPanel');
-    const backdrop = document.getElementById('searchBackdrop');
-    const input = document.getElementById('searchInput');
-    const closeBtn = document.getElementById('searchClose');
-    const form = document.getElementById('searchForm');
-
-    if (!panel || !backdrop || !input || !closeBtn || !form) return;
-
-    renderProducts();
-
-    panel.classList.add('open');
-    backdrop.classList.add('open');
-    panel.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('search-is-open');
-
-    setTimeout(function () {
-      input.focus();
-    }, 180);
-
-    closeBtn.onclick = closeSearch;
-    backdrop.onclick = closeSearch;
-
-    input.oninput = function () {
-      renderProducts(input.value);
-    };
-
-    form.onsubmit = function (event) {
-      event.preventDefault();
-
-      const firstResult = document.querySelector('.search-product-card');
-      if (firstResult) {
-        window.location.href = firstResult.getAttribute('href');
-      }
-    };
-  }
-
-  function closeSearch() {
-    const panel = document.getElementById('searchPanel');
-    const backdrop = document.getElementById('searchBackdrop');
-
-    if (!panel || !backdrop) return;
-
-    panel.classList.remove('open');
-    backdrop.classList.remove('open');
-    panel.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('search-is-open');
-  }
-
-  searchButtons.forEach(function (button) {
-    button.addEventListener('click', openSearch);
-  });
-
-  document.addEventListener('keydown', function (event) {
-    if (event.key === 'Escape') {
-      closeSearch();
-    }
-  });
-});
-
-/* =================================================
-   SEARCH GỌN TRÊN NAVBAR + ĐỀ XUẤT DƯỚI NAVBAR
-   HOME / NL / PL
-================================================= */
-
-document.addEventListener('DOMContentLoaded', function () {
-  const nav = document.querySelector('.nav, .site-nav');
-
-  if (!nav) return;
-
-  if (!document.querySelector('.nav-search-btn')) {
-    const btn = document.createElement('button');
-    btn.className = 'nav-search-btn';
-    btn.type = 'button';
-    btn.setAttribute('aria-label', 'Tìm kiếm');
-    btn.innerHTML = `
-      <svg viewBox="0 0 24 24" fill="none">
-        <circle cx="11" cy="11" r="7"></circle>
-        <path d="M16.5 16.5L21 21"></path>
-      </svg>
-    `;
-    nav.appendChild(btn);
-  }
-
-  const cleanPath = location.pathname.replace(/\\/g, '/');
-  const isSubPage = cleanPath.includes('/nl/') || cleanPath.includes('/pl/');
-
-  const imgPrefix = isSubPage ? '../' : '';
-  const productLinkPrefix = isSubPage ? '../pl/pl.html' : 'pl/pl.html';
-
-  const products = [
-    {
-      id: 'phan-nu',
-      name: 'Phấn Phủ Ngự Sắc',
-      desc: 'Phấn phủ thiên nhiên, nền mịn nhẹ và cảm hứng Huế.',
-      image: imgPrefix + 'assets/pl/products/phanphu.png',
-      link: productLinkPrefix + '#phan-nu',
-      keywords: 'phan phu phấn phủ phan nu phấn nụ powder nền mịn kiềm dầu'
-    },
-    {
-      id: 'phan-ma',
-      name: 'Phấn Má Hồng Ngự Sắc',
-      desc: 'Má hồng thiên nhiên, sắc hồng nhẹ và dễ tán.',
-      image: imgPrefix + 'assets/pl/products/phanma.png',
-      link: productLinkPrefix + '#phan-ma',
-      keywords: 'phan ma phấn má má hồng blush hồng tự nhiên'
-    },
-    {
-      id: 'son-duong',
-      name: 'Son Dưỡng Ngự Sắc',
-      desc: 'Son dưỡng từ dầu dừa, sáp ong, vitamin E và vaseline.',
-      image: imgPrefix + 'assets/pl/products/sonduong.png',
-      link: productLinkPrefix + '#son-duong',
-      keywords: 'son duong son dưỡng môi dầu dừa sáp ong vitamin e vaseline'
-    }
-  ];
-
-  function removeVietnamese(text) {
-    return text
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/đ/g, 'd')
-      .replace(/Đ/g, 'D')
-      .toLowerCase();
-  }
-
-  function removeOldSearchPanel() {
-    document
-      .querySelectorAll('.search-panel, .search-backdrop')
-      .forEach(function (el) {
-        el.remove();
-      });
-  }
-
-  function createSearchUI() {
-    removeOldSearchPanel();
-
-    if (!document.querySelector('.ng-nav-search-box')) {
-      const searchBox = document.createElement('form');
-      searchBox.className = 'ng-nav-search-box';
-      searchBox.id = 'ngNavSearchBox';
-
-      searchBox.innerHTML = `
-        <input
-          class="ng-nav-search-input"
-          id="ngNavSearchInput"
-          type="search"
-          placeholder="Tìm sản phẩm Ngự Sắc"
-          autocomplete="off"
-        />
-
-        <button class="ng-nav-search-close" type="button" aria-label="Đóng tìm kiếm">×</button>
-
-        <button class="ng-nav-search-submit" type="submit" aria-label="Tìm kiếm">
-          <svg viewBox="0 0 24 24" fill="none">
-            <circle cx="11" cy="11" r="7"></circle>
-            <path d="M16.5 16.5L21 21"></path>
-          </svg>
-        </button>
-      `;
-
-      document.body.appendChild(searchBox);
-    }
-
-    if (!document.querySelector('.ng-search-suggest')) {
-      const suggest = document.createElement('section');
-      suggest.className = 'ng-search-suggest';
-      suggest.id = 'ngSearchSuggest';
-
-      suggest.innerHTML = `
-        <div class="ng-search-head">
-          <p class="ng-search-title">Có thể bạn sẽ thích</p>
-          <p class="ng-search-category">
-            Tìm kiếm trong <a href="${productLinkPrefix}#phan-nu">Sản phẩm Ngự Sắc</a>
-          </p>
-        </div>
-
-        <div class="ng-search-grid" id="ngSearchGrid"></div>
-
-        <p class="ng-search-empty">Không tìm thấy sản phẩm phù hợp.</p>
-      `;
-
-      document.body.appendChild(suggest);
-    }
-  }
-
-  function renderProducts(keyword) {
-    const suggest = document.getElementById('ngSearchSuggest');
-    const grid = document.getElementById('ngSearchGrid');
-
-    if (!suggest || !grid) return;
-
-    const cleanKeyword = removeVietnamese((keyword || '').trim());
-
-    const filteredProducts = products.filter(function (product) {
-      const searchText = removeVietnamese(
-        product.name + ' ' + product.desc + ' ' + product.keywords
-      );
-
-      return !cleanKeyword || searchText.includes(cleanKeyword);
-    });
-
-    suggest.classList.toggle('no-result', filteredProducts.length === 0);
-
-    grid.innerHTML = filteredProducts.map(function (product) {
-      return `
-        <a class="ng-search-card" href="${product.link}">
-          <img src="${product.image}" alt="${product.name}">
-          <div>
-            <strong class="ng-search-name">${product.name}</strong>
-            <span class="ng-search-desc">${product.desc}</span>
-          </div>
-          <span class="ng-search-arrow">›</span>
-        </a>
-      `;
-    }).join('');
-  }
-
-  function openSearch() {
-    createSearchUI();
-
-    const input = document.getElementById('ngNavSearchInput');
-    const form = document.getElementById('ngNavSearchBox');
-    const closeBtn = document.querySelector('.ng-nav-search-close');
-
-    document.body.classList.add('ng-search-open');
-    renderProducts('');
-
-    setTimeout(function () {
-      input.focus();
-    }, 120);
-
-    input.oninput = function () {
-      renderProducts(input.value);
-    };
-
-    closeBtn.onclick = closeSearch;
-
-    form.onsubmit = function (event) {
-      event.preventDefault();
-
-      const firstProduct = document.querySelector('.ng-search-card');
-
-      if (firstProduct) {
-        window.location.href = firstProduct.getAttribute('href');
-      }
-    };
-  }
-
-  function closeSearch() {
-    document.body.classList.remove('ng-search-open');
-
-    const input = document.getElementById('ngNavSearchInput');
-    if (input) input.value = '';
-  }
-
-  document.addEventListener('click', function (event) {
-    const searchBtn = event.target.closest('.nav-search-btn');
-    const searchBox = event.target.closest('.ng-nav-search-box');
-    const suggestBox = event.target.closest('.ng-search-suggest');
-
-    if (searchBtn) {
-      event.preventDefault();
-      event.stopPropagation();
-      event.stopImmediatePropagation();
-      openSearch();
-      return;
-    }
-
-    if (event.target.closest('.ng-search-card')) {
-      closeSearch();
-      return;
-    }
-
-    if (
-      document.body.classList.contains('ng-search-open') &&
-      !searchBox &&
-      !suggestBox &&
-      !searchBtn
-    ) {
-      closeSearch();
-    }
-  }, true);
-
-  document.addEventListener('keydown', function (event) {
-    if (event.key === 'Escape') {
-      closeSearch();
     }
   });
 });
@@ -1087,4 +804,3 @@ document.addEventListener('DOMContentLoaded', function () {
     initAllAnimations();
   }
 })();
-

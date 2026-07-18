@@ -448,7 +448,7 @@ body.ngs-search-open .ngs-search-popover {
   padding-top: var(--nav-height);
   overflow: hidden;
   isolation: isolate;
-  background: var(--cream-soft);
+  background: #fff;
 }
 
 .hero-ingredient-video {
@@ -460,93 +460,99 @@ body.ngs-search-open .ngs-search-popover {
   object-fit: cover;
   object-position: center;
   pointer-events: none;
-  transform-origin: center;
 }
 
-.hero-ingredient::before {
-  content: "";
+/* Chữ phủ trên video THANHPHAN_1.mp4 */
+.hero-video-copy {
   position: absolute;
   inset: var(--nav-height) 0 0;
   z-index: 2;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 248, 239, .02) 0%,
-    rgba(255, 248, 239, .18) 38%,
-    rgba(255, 248, 239, .62) 58%,
-    rgba(255, 248, 239, .92) 100%
-  );
-  pointer-events: none;
-}
-
-.hero-canvas {
-  position: absolute;
-  inset: var(--nav-height) 0 0;
-  z-index: 2;
-  width: 100%;
-  height: calc(100% - var(--nav-height));
-  opacity: .78;
-  mix-blend-mode: soft-light;
-  pointer-events: none;
-}
-
-.hero-ingredient-content {
-  position: relative;
-  z-index: 3;
-  width: min(560px, 40vw);
-  min-height: calc(118svh - var(--nav-height));
   display: flex;
   flex-direction: column;
+  align-items: center;
+  padding-inline: 24px;
+  color: #fff;
+  text-align: center;
+  pointer-events: none;
+  text-shadow: 0 2px 18px rgba(35, 22, 15, .22);
+}
+
+/* Kiểu 1: căn giữa video */
+/* .hero-video-copy--center {
   justify-content: center;
-  margin-left: auto;
-  margin-right: clamp(48px, 7vw, 120px);
-  padding: clamp(52px, 7vh, 86px) 0 clamp(64px, 8vh, 96px);
-  color: var(--brown-text);
+  padding-bottom: 0;
+} */
+
+/* Giữ cỡ chữ nhỏ khi đặt nội dung ở giữa video */
+/* .hero-video-copy--center .hero-video-brand {
+  font-size: clamp(11px, .75vw, 13px);
 }
 
-.hero-ingredient-content h1 {
-  margin: 0 0 26px;
-  color: var(--brown-text);
-  font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: clamp(44px, 4.5vw, 68px);
-  font-weight: 700;
-  line-height: .95;
-  letter-spacing: .07em;
+.hero-video-copy.hero-video-copy--center h1 {
+  max-width: 620px;
+  font-size: clamp(30px, 3.2vw, 50px);
+} */
+
+/* Kiểu 2: căn giữa theo chiều ngang và nằm gần đáy video */
+.hero-video-copy--bottom {
+  justify-content: flex-end;
+  padding-bottom: clamp(160px, 20vh, 230px);
 }
 
-.hero-line {
-  width: 100%;
-  height: 1px;
-  margin-bottom: 32px;
-  background: rgba(139, 46, 46, .42);
+/* Font nhỏ hơn dành riêng cho kiểu 2 */
+.hero-video-copy--bottom .hero-video-brand {
+  font-size: clamp(11px, .75vw, 13px);
 }
 
-.hero-brand {
-  margin-bottom: 14px;
-  color: var(--brown-text);
-  font-size: 16px;
+.hero-video-copy.hero-video-copy--bottom h1 {
+  max-width: 620px;
+  font-size: clamp(24px, 2.4vw, 38px);
+}
+
+.hero-video-brand {
+  margin: 0 0 clamp(14px, 2vh, 24px);
+  font-family: "DM Sans", Arial, sans-serif;
+  font-size: clamp(14px, 1.15vw, 18px);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.hero-video-copy h1 {
+  max-width: 980px;
+  margin: 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(48px, 6.3vw, 96px);
   font-weight: 500;
-  letter-spacing: .02em;
+  line-height: 1.08;
+  letter-spacing: -.02em;
+  text-wrap: balance;
 }
 
-.hero-ingredient-content h2 {
-  margin: 0 0 28px;
-  color: var(--brown-text);
-  font-size: clamp(20px, 1.55vw, 26px);
-  font-weight: 400;
-  line-height: 1.45;
-}
+@media (max-width: 640px) {
+  .hero-video-copy {
+    padding-inline: 18px;
+  }
 
-.hero-ingredient-content p {
-  margin-bottom: 16px;
-  color: var(--brown-text);
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.85;
-  text-align: left;
-}
+  .hero-video-copy--bottom {
+    padding-bottom: clamp(112px, 17vh, 150px);
+  }
 
-.hero-ingredient-content p:last-child {
-  margin-bottom: 0;
+  .hero-video-copy.hero-video-copy--bottom h1 {
+    font-size: clamp(21px, 6vw, 30px);
+  }
+
+  .hero-video-copy.hero-video-copy--center h1 {
+    font-size: clamp(26px, 7.5vw, 36px);
+  }
+
+  .hero-video-brand {
+    margin-bottom: 12px;
+  }
+
+  .hero-video-copy h1 {
+    font-size: clamp(38px, 12vw, 58px);
+    line-height: 1.08;
+  }
 }
 
 /* ================= INGREDIENT STORY ================= */
@@ -622,8 +628,8 @@ body.ngs-search-open .ngs-search-popover {
 .story-desc {
   max-width: 900px;
   margin: 0 auto;
-  text-align: justify;
-  text-align-last: left;
+  text-align: center;
+  text-align-last: center;
 }
 
 .story-desc p {
@@ -1475,19 +1481,6 @@ body.has-active-detail #ingredient-map-home .ng-other-ingredients {
 body.ngs-motion-ready .nav-logo { animation: logoIn .85s var(--ease) both; }
 body.ngs-motion-ready .nav-hamburger,
 body.ngs-motion-ready .nav-search-btn { animation: iconIn .7s var(--ease) both; }
-body.ngs-motion-ready .hero-ingredient-video {
-  animation: heroMediaIn 1.15s var(--ease) both, heroBreath 15s ease-in-out 1.15s infinite alternate;
-}
-body.ngs-motion-ready .hero-canvas { animation: fadeIn 1.2s ease both; }
-body.ngs-motion-ready .hero-ingredient-content > * { animation: textUp .85s var(--ease) both; }
-body.ngs-motion-ready .hero-ingredient-content > *:nth-child(1) { animation-delay: .08s; }
-body.ngs-motion-ready .hero-ingredient-content > *:nth-child(2) { animation-delay: .15s; }
-body.ngs-motion-ready .hero-ingredient-content > *:nth-child(3) { animation-delay: .22s; }
-body.ngs-motion-ready .hero-ingredient-content > *:nth-child(4) { animation-delay: .29s; }
-body.ngs-motion-ready .hero-ingredient-content > *:nth-child(5) { animation-delay: .36s; }
-body.ngs-motion-ready .hero-ingredient-content > *:nth-child(6) { animation-delay: .43s; }
-body.ngs-motion-ready .hero-ingredient-content > *:nth-child(7) { animation-delay: .50s; }
-body.ngs-motion-ready .hero-ingredient-content > *:nth-child(8) { animation-delay: .57s; }
 
 .reveal-on-scroll {
   opacity: 0;
@@ -1511,26 +1504,6 @@ body.ngs-motion-ready .hero-ingredient-content > *:nth-child(8) { animation-dela
 @keyframes iconIn {
   from { opacity: 0; filter: blur(4px); transform: translateY(-68%) scale(.94); }
   to { opacity: 1; filter: none; transform: translateY(-50%) scale(1); }
-}
-
-@keyframes heroMediaIn {
-  from { opacity: 0; filter: blur(10px) saturate(.9); transform: scale(1.075); }
-  to { opacity: 1; filter: none; transform: scale(1); }
-}
-
-@keyframes heroBreath {
-  from { transform: scale(1); }
-  to { transform: scale(1.035); }
-}
-
-@keyframes textUp {
-  from { opacity: 0; filter: blur(6px); transform: translateY(26px); }
-  to { opacity: 1; filter: none; transform: translateY(0); }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: .78; }
 }
 
 @keyframes drawerItem {
@@ -2283,4 +2256,18 @@ body.ngs-motion-ready .hero-ingredient-content > *:nth-child(8) { animation-dela
 .footer-bottom,
 .site-footer-bottom {
   border-top-color: rgba(255, 255, 255, .18) !important;
+}
+/* Mobile: video hero vừa đúng một màn hình, bao gồm cả navbar */
+@media (max-width: 640px) {
+  .hero-ingredient {
+    height: 100svh;
+    min-height: 100svh;
+  }
+
+  @supports (height: 100dvh) {
+    .hero-ingredient {
+      height: 100dvh;
+      min-height: 100dvh;
+    }
+  }
 }
