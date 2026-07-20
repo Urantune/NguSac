@@ -388,7 +388,6 @@ const plShowcaseDetails = {
       image: '../assets/pl/products/PhanPhu/nd_phanphu2.png',
       kicker: 'Hiệu ứng trang điểm',
       title: 'Lớp phủ mịn nhẹ, không cần chỉnh sửa cầu kỳ',
-      emphasis: 'mịn thoáng',
       caption: 'Phấn Phủ Ngự Sắc giúp da khô thoáng, mịn nhẹ, hài hòa.'
     },
     process: {
@@ -435,7 +434,6 @@ const plShowcaseDetails = {
       image: '../assets/pl/products/PhanMa/nd_phanma2.png',
       kicker: 'Hiệu ứng trang điểm',
       title: 'Sắc hồng tự nhiên cho gương mặt tươi tắn',
-      emphasis: 'rạng rỡ',
       caption: 'Phấn Má Hồng Ngự Sắc giúp gương mặt tươi tắn, tự nhiên hơn.'
     },
     process: {
@@ -482,7 +480,6 @@ const plShowcaseDetails = {
       image: '../assets/pl/products/SonDuong/nd_sonduong2.png',
       kicker: 'Hiệu ứng chăm sóc môi',
       title: 'Đôi môi mềm mại và ẩm mượt tự nhiên',
-      emphasis: 'ẩm mượt',
       caption: 'Son Dưỡng Ngự Sắc giúp môi mềm mại, mịn màng, giảm khô ráp.'
     },
     process: {
@@ -585,7 +582,6 @@ renderProductSection = function (section) {
     <section class="pl-finish" aria-label="${item.finish.kicker} của ${item.title}">
       <p class="pl-finish-kicker">${item.finish.kicker}</p>
       <h2>${item.finish.title}</h2>
-      <p class="pl-finish-emphasis">${item.finish.emphasis}</p>
       <figure class="pl-finish-media">
         <img src="${item.finish.image}" alt="${item.finish.caption}">
       </figure>

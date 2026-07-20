@@ -499,12 +499,12 @@ body.ngs-search-open .ngs-search-popover {
 .hero-video-copy--bottom {
   justify-content: flex-end;
   padding-bottom: clamp(160px, 20vh, 230px);
-  transform: translateY(clamp(32px, 3.5vh, 40px));
+  transform: translateY(calc(clamp(32px, 3.5vh, 40px) + 38px));
 }
 
 /* Font nhỏ hơn dành riêng cho kiểu 2 */
 .hero-video-copy--bottom .hero-video-brand {
-  font-size: clamp(11px, .75vw, 13px);
+  font-size: clamp(14px, 1vw, 17px);
 }
 
 .hero-video-copy.hero-video-copy--bottom h1 {
@@ -538,7 +538,11 @@ body.ngs-search-open .ngs-search-popover {
 
   .hero-video-copy--bottom {
     padding-bottom: clamp(112px, 17vh, 150px);
-    transform: translateY(24px);
+    transform: translateY(62px);
+  }
+
+  .hero-video-copy--bottom .hero-video-brand {
+    font-size: 14px;
   }
 
   .hero-video-copy.hero-video-copy--bottom h1 {
