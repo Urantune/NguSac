@@ -343,44 +343,174 @@ function renderProductSection(section, product) {
   `;
 }
 
+const plSharedPanels = {
+  heritage: {
+    title: 'Dấu ấn Ngự Sắc',
+    heading: 'Một món quà mang vẻ đẹp Huế',
+    paragraphs: [
+      'Mỗi sản phẩm Ngự Sắc được phát triển với thiết kế lấy cảm hứng từ vẻ đẹp cung đình và những hình ảnh đặc trưng của Huế.',
+      'Sự kết hợp giữa phong cách truyền thống và thẩm mỹ hiện đại giúp sản phẩm không chỉ phù hợp để sử dụng hằng ngày mà còn có thể trở thành một món quà văn hóa dành cho những người yêu thích mỹ phẩm Việt và vẻ đẹp Huế.'
+    ]
+  },
+  qr: {
+    title: 'Khám phá qua QR Code',
+    heading: 'Minh bạch thông tin – kết nối văn hóa',
+    paragraphs: [
+      'Website Ngự Sắc hiện đóng vai trò là không gian giới thiệu và cung cấp thông tin sản phẩm, không trực tiếp thực hiện hoạt động bán hàng.',
+      'Thông qua QR Code trên bao bì, người dùng có thể khám phá thành phần, nguồn gốc nguyên liệu, hướng dẫn sử dụng, cách bảo quản, quy trình tạo sản phẩm và câu chuyện lấy cảm hứng từ Phấn Nụ Cung Đình Huế.',
+      'QR Code giúp sản phẩm truyền thống trở nên hiện đại, minh bạch và gần gũi hơn với người dùng trẻ.'
+    ]
+  },
+  connect: {
+    title: 'Kết nối cùng Ngự Sắc',
+    heading: 'Trải nghiệm và chia sẻ cảm nhận',
+    paragraphs: [
+      'Ngự Sắc đang được phát triển và hoàn thiện thông qua các sản phẩm prototype, hoạt động khảo sát và phản hồi thực tế từ người dùng.',
+      'Thông tin về booth trải nghiệm, chương trình dùng thử, hoạt động giới thiệu sản phẩm và các nền tảng phân phối trong tương lai sẽ được cập nhật trên website và kênh truyền thông chính thức của Ngự Sắc.'
+    ]
+  }
+};
+
 const plShowcaseDetails = {
   'phan-nu': {
     eyebrow: 'Phấn Phủ Thiên Nhiên',
     title: 'Phấn Phủ Ngự Sắc',
     subtitle: 'Phấn phủ làm mịn – Kiềm dầu nhẹ – Cảm hứng từ Phấn Nụ Cung Đình Huế',
-    description: 'Chất phấn mỏng nhẹ giúp nền da khô thoáng, mịn màng và tự nhiên.',
+    innovation: {
+      image: '../assets/pl/products/PhanPhu/nd_phanphu1.png',
+      title: 'Phấn phủ thiên nhiên mang tinh thần cung đình Huế',
+      paragraphs: [
+        'Phấn Phủ Ngự Sắc hiện đại hóa cảm hứng từ Phấn Nụ Cung Đình Huế bằng cách kết hợp nguyên liệu thiên nhiên, thiết kế trẻ trung và công nghệ QR Code.',
+        'Sản phẩm không chỉ hướng đến hiệu quả trang điểm nhẹ nhàng mà còn góp phần kể lại câu chuyện về nét đẹp truyền thống Việt Nam theo một cách mới mẻ và dễ tiếp cận hơn.'
+      ]
+    },
+    finish: {
+      image: '../assets/pl/products/PhanPhu/nd_phanphu2.png',
+      kicker: 'Hiệu ứng trang điểm',
+      title: 'Lớp phủ mịn nhẹ, không cần chỉnh sửa cầu kỳ',
+      emphasis: 'mịn thoáng',
+      caption: 'Phấn Phủ Ngự Sắc giúp da khô thoáng, mịn nhẹ, hài hòa.'
+    },
+    process: {
+      video: '../assets/pl/products/VideoQT/QT2_Phan_web.mp4',
+      title: 'Quy trình làm Phấn Phủ Ngự Sắc'
+    },
+    details: {
+      paragraphs: [
+        'Mỏng nhẹ và tự nhiên, Phấn Phủ Ngự Sắc tạo một lớp phủ mềm mịn trên bề mặt da, giúp hấp thụ bã nhờn, hỗ trợ kiểm soát dầu và mang lại cảm giác khô thoáng trong quá trình sử dụng.',
+        'Sản phẩm kết hợp cao lanh, bột gạo cùng các nguyên liệu thảo mộc truyền thống như bạch linh, bạch chỉ, hoài sơn, cam thảo, bạch cúc và chiết xuất hoa lài. Chất phấn nhẹ nhàng giúp bề mặt da trông mịn màng hơn mà không tạo cảm giác nặng nề.',
+        'Lấy cảm hứng từ Phấn Nụ Cung Đình Huế, Phấn Phủ Ngự Sắc kết nối bí quyết làm đẹp truyền thống với phong cách trang điểm tự nhiên của người trẻ hiện đại.'
+      ],
+      facts: [
+        ['HIỆU ỨNG', 'Mịn nhẹ, tự nhiên và khô thoáng'],
+        ['CÔNG DỤNG', 'Hỗ trợ hấp thụ bã nhờn và kiểm soát dầu'],
+        ['THÀNH PHẦN NỔI BẬT', 'Cao lanh, bột gạo và các nguyên liệu thảo mộc'],
+        ['TRẢI NGHIỆM', 'Giúp bề mặt da trông mịn màng và lớp nền hài hòa hơn'],
+        ['PHÙ HỢP', 'Trang điểm nhẹ nhàng và sử dụng hằng ngày']
+      ],
+      usage: 'Có thể sử dụng sau bước dưỡng da, sau lớp nền hoặc dặm lại tại những vùng dễ tiết dầu như trán, mũi và cằm.',
+      weight: '25 g'
+    },
     gallery: [
-      '../assets/pl/products/phanphu.png',
-      '../assets/index/hinhmn/tranhu.png',
-      '../assets/nl/detail/nd_caolanhmypham.png',
-      '../assets/nl/detail/nd_botgaost25.png',
-      '../assets/nl/detail/nd_thaomoc.png'
+      '../assets/pl/products/PhanPhu/hero_phanphu1.png',
+      '../assets/pl/products/PhanPhu/hero_phanphu2.png',
+      '../assets/pl/products/PhanPhu/hero_phanphu3.png',
+      '../assets/pl/products/PhanPhu/hero_phanphu4.png',
+      '../assets/pl/products/PhanPhu/hero_phanphu5.png'
     ]
   },
   'phan-ma': {
     eyebrow: 'Phấn Má Hồng Thiên Nhiên',
     title: 'Phấn Má Hồng Ngự Sắc',
     subtitle: 'Sắc hồng tự nhiên – Hiệu ứng tươi tắn – Cảm hứng cung đình Huế',
-    description: 'Chất phấn nhẹ nhàng giúp gương mặt rạng rỡ, mềm mại và phù hợp với phong cách trang điểm hằng ngày.',
+    innovation: {
+      image: '../assets/pl/products/PhanMa/nd_phanma1.png',
+      title: 'Sắc hồng truyền thống trong phong cách hiện đại',
+      paragraphs: [
+        'Phấn Má Hồng Ngự Sắc chuyển tải nét duyên nhẹ nhàng của người phụ nữ Huế thông qua một sản phẩm trang điểm gần gũi với thế hệ trẻ.',
+        'Từ sắc phấn mềm mại đến thiết kế bao bì mang yếu tố văn hóa, sản phẩm hướng đến sự cân bằng giữa nét đẹp truyền thống, tính thẩm mỹ và trải nghiệm sử dụng hiện đại.'
+      ]
+    },
+    finish: {
+      image: '../assets/pl/products/PhanMa/nd_phanma2.png',
+      kicker: 'Hiệu ứng trang điểm',
+      title: 'Sắc hồng tự nhiên cho gương mặt tươi tắn',
+      emphasis: 'rạng rỡ',
+      caption: 'Phấn Má Hồng Ngự Sắc giúp gương mặt tươi tắn, tự nhiên hơn.'
+    },
+    process: {
+      video: '../assets/pl/products/VideoQT/QT2_Phan_web.mp4',
+      title: 'Quy trình làm Phấn Má Hồng Ngự Sắc'
+    },
+    details: {
+      paragraphs: [
+        'Mềm mại và nhẹ nhàng, Phấn Má Hồng Ngự Sắc mang đến sắc hồng tự nhiên, giúp gương mặt trở nên tươi tắn nhưng vẫn giữ được vẻ thanh lịch và tinh tế.',
+        'Chất phấn mịn, dễ tán và có thể điều chỉnh độ đậm nhạt tùy theo phong cách trang điểm. Một lớp phấn nhẹ tạo hiệu ứng ửng hồng trong trẻo, trong khi nhiều lớp giúp màu má trở nên rõ nét hơn mà không làm mất đi vẻ tự nhiên.',
+        'Lấy cảm hứng từ nét duyên của người phụ nữ Huế, sản phẩm kết hợp giữa vẻ đẹp truyền thống và phong cách trang điểm hiện đại, phù hợp sử dụng hằng ngày hoặc trong những dịp cần vẻ ngoài chỉn chu hơn.'
+      ],
+      facts: [
+        ['HIỆU ỨNG', 'Sắc hồng nhẹ nhàng và tự nhiên'],
+        ['CHẤT PHẤN', 'Mịn nhẹ, dễ tán và dễ điều chỉnh'],
+        ['ĐỘ LÊN MÀU', 'Có thể tăng dần theo nhiều lớp'],
+        ['TRẢI NGHIỆM', 'Giúp gương mặt trông tươi tắn và có sức sống hơn'],
+        ['PHÙ HỢP', 'Trang điểm hằng ngày và phong cách makeup nhẹ nhàng']
+      ],
+      usage: 'Dùng cọ lấy một lượng phấn vừa đủ, tán nhẹ lên vùng gò má và điều chỉnh độ đậm nhạt theo sở thích.',
+      weight: '25 g'
+    },
     gallery: [
-      '../assets/pl/products/phanma.png',
-      '../assets/index/hinhmn/duykhang.png',
-      '../assets/nl/detail/nd_botmaukhoang.png',
-      '../assets/nl/detail/nd_tinhchathoalai.png',
-      '../assets/nl/detail/nd_thaomoc.png'
+      '../assets/pl/products/PhanMa/hero_phanma1.png',
+      '../assets/pl/products/PhanMa/hero_phanma2.png',
+      '../assets/pl/products/PhanMa/hero_phanma3.png',
+      '../assets/pl/products/PhanMa/hero_phanma4.png',
+      '../assets/pl/products/PhanMa/hero_phanma5.png'
     ]
   },
   'son-duong': {
     eyebrow: 'Son Dưỡng Từ Dừa',
     title: 'Son Dưỡng Ngự Sắc',
     subtitle: 'Dưỡng ẩm mềm môi – Hạn chế khô ráp – Cảm hứng vẻ đẹp Việt',
-    description: 'Công thức từ dầu dừa, sáp ong và vitamin E giúp đôi môi mềm mại, ẩm mượt mỗi ngày.',
+    innovation: {
+      image: '../assets/pl/products/SonDuong/nd_sonduong1.png',
+      title: 'Son dưỡng thiên nhiên mang cảm hứng vẻ đẹp Việt',
+      paragraphs: [
+        'Son Dưỡng Ngự Sắc kết hợp những nguyên liệu chăm sóc môi quen thuộc với thiết kế mang nét văn hóa Huế.',
+        'Sản phẩm hướng đến trải nghiệm dưỡng môi đơn giản, gần gũi nhưng vẫn có dấu ấn riêng, giúp một vật dụng chăm sóc cá nhân hằng ngày trở thành phương tiện kết nối người dùng với câu chuyện văn hóa Việt Nam.'
+      ]
+    },
+    finish: {
+      image: '../assets/pl/products/SonDuong/nd_sonduong2.png',
+      kicker: 'Hiệu ứng chăm sóc môi',
+      title: 'Đôi môi mềm mại và ẩm mượt tự nhiên',
+      emphasis: 'ẩm mượt',
+      caption: 'Son Dưỡng Ngự Sắc giúp môi mềm mại, mịn màng, giảm khô ráp.'
+    },
+    process: {
+      video: '../assets/pl/products/VideoQT/QT1_Son_web.mp4',
+      title: 'Quy trình làm Son Dưỡng Ngự Sắc'
+    },
+    details: {
+      paragraphs: [
+        'Mềm mại và dễ sử dụng, Son Dưỡng Ngự Sắc tạo một lớp dưỡng mỏng nhẹ trên môi, giúp đôi môi có cảm giác ẩm mượt và hạn chế tình trạng khô ráp.',
+        'Công thức được phát triển từ dầu dừa, sáp ong, vitamin E và vaseline. Dầu dừa góp phần cung cấp độ ẩm, sáp ong giúp tạo kết cấu ổn định, trong khi vaseline giúp tăng độ mềm và tạo một lớp phủ nhẹ trên bề mặt môi.',
+        'Với thiết kế nhỏ gọn và cảm hứng từ vẻ đẹp Việt, Son Dưỡng Ngự Sắc phù hợp sử dụng hằng ngày, trước khi trang điểm môi hoặc bất cứ khi nào đôi môi cần được bổ sung độ ẩm.'
+      ],
+      facts: [
+        ['HIỆU ỨNG', 'Môi mềm mại và có độ bóng nhẹ'],
+        ['CÔNG DỤNG', 'Hỗ trợ dưỡng ẩm và hạn chế cảm giác khô ráp'],
+        ['THÀNH PHẦN NỔI BẬT', 'Dầu dừa, sáp ong, vitamin E và vaseline'],
+        ['KẾT CẤU', 'Mềm, mỏng nhẹ và dễ thoa'],
+        ['PHÙ HỢP', 'Chăm sóc môi hằng ngày và sử dụng trước son màu']
+      ],
+      usage: 'Thoa trực tiếp một lớp vừa đủ lên môi. Có thể sử dụng nhiều lần trong ngày khi cảm thấy môi khô.',
+      weight: '10 g'
+    },
     gallery: [
-      '../assets/pl/products/sonduong.png',
-      '../assets/index/hinhmn/kimanh.png',
-      '../assets/nl/detail/nd_daudua.png',
-      '../assets/nl/detail/nd_sapong.png',
-      '../assets/nl/detail/nd_vitamine.png'
+      '../assets/pl/products/SonDuong/hero_sonduong1.png',
+      '../assets/pl/products/SonDuong/hero_sonduong2.png',
+      '../assets/pl/products/SonDuong/hero_sonduong3.png',
+      '../assets/pl/products/SonDuong/hero_sonduong4.png',
+      '../assets/pl/products/SonDuong/hero_sonduong5.png'
     ]
   }
 };
@@ -406,7 +536,7 @@ renderProductSection = function (section) {
 
         <button class="pl-fullscreen" type="button" aria-label="Xem ảnh toàn màn hình">
           <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5M3 8l6-6M21 8l-6-6M3 16l6 6M21 16l-6 6"/>
+            <path d="M14 4h6v6M20 4l-7 7M10 20H4v-6M4 20l7-7"/>
           </svg>
         </button>
 
@@ -421,9 +551,56 @@ renderProductSection = function (section) {
         <p class="pl-showcase-eyebrow">${item.eyebrow}</p>
         <h1>${item.title}</h1>
         <p class="pl-showcase-subtitle">${item.subtitle}</p>
-        <p class="pl-showcase-description">${item.description}</p>
       </div>
     </div>
+
+    <div class="pl-product-content">
+      <article class="pl-product-summary">
+        <p class="pl-product-summary-text">${item.details.paragraphs.slice(0, 2).join(' ')}</p>
+        <button class="pl-info-trigger pl-see-more" type="button" data-panel="description">
+          Xem thêm
+        </button>
+      </article>
+
+      <nav class="pl-product-links" aria-label="Thông tin thêm về Ngự Sắc">
+        ${Object.entries(plSharedPanels).map(([key, panel]) => `
+          <button class="pl-info-trigger" type="button" data-panel="${key}">
+            <span>${panel.title}</span>
+          </button>
+        `).join('')}
+      </nav>
+    </div>
+
+    <section class="pl-innovation" aria-label="Sự đổi mới của ${item.title}">
+      <figure class="pl-innovation-media">
+        <img src="${item.innovation.image}" alt="${item.title} – Sự đổi mới">
+      </figure>
+      <div class="pl-innovation-copy">
+        <p class="pl-innovation-kicker">Sự đổi mới</p>
+        <h2>${item.innovation.title}</h2>
+        <p>${item.innovation.paragraphs.join(' ')}</p>
+      </div>
+    </section>
+
+    <section class="pl-finish" aria-label="${item.finish.kicker} của ${item.title}">
+      <p class="pl-finish-kicker">${item.finish.kicker}</p>
+      <h2>${item.finish.title}</h2>
+      <p class="pl-finish-emphasis">${item.finish.emphasis}</p>
+      <figure class="pl-finish-media">
+        <img src="${item.finish.image}" alt="${item.finish.caption}">
+      </figure>
+      <p class="pl-finish-caption">${item.finish.caption}</p>
+    </section>
+
+    <section class="pl-process" aria-label="${item.process.title}">
+      <div class="pl-process-video">
+        <video autoplay muted loop playsinline controls preload="metadata">
+          <source src="${item.process.video}" type="video/mp4">
+          Trình duyệt của bạn không hỗ trợ phát video.
+        </video>
+      </div>
+      <h2>${item.process.title}</h2>
+    </section>
 
     <div class="pl-lightbox" role="dialog" aria-modal="true" aria-label="Ảnh sản phẩm toàn màn hình" hidden>
       <button class="pl-lightbox-close" type="button" aria-label="Đóng">×</button>
@@ -436,7 +613,8 @@ function setShowcaseIndex(showcase, nextIndex) {
   const slides = showcase.querySelectorAll('.pl-slide');
   if (!slides.length) return;
 
-  const index = (nextIndex + slides.length) % slides.length;
+  const requestedIndex = Number(nextIndex);
+  const index = ((requestedIndex % slides.length) + slides.length) % slides.length;
   const track = showcase.querySelector('.pl-current-track');
   const previousImage = showcase.querySelector('.pl-previous img');
 
@@ -446,7 +624,75 @@ function setShowcaseIndex(showcase, nextIndex) {
 
   showcase.querySelectorAll('.pl-dot').forEach((dot, dotIndex) => {
     dot.classList.toggle('is-active', dotIndex === index);
+    dot.setAttribute('aria-current', dotIndex === index ? 'true' : 'false');
   });
+}
+
+const plInfoDrawer = document.querySelector('.pl-info-drawer');
+const plInfoDrawerOverlay = document.querySelector('.pl-info-drawer-overlay');
+const plInfoDrawerTitle = document.getElementById('plInfoDrawerTitle');
+const plInfoDrawerContent = document.querySelector('.pl-info-drawer-content');
+let plInfoDrawerTrigger = null;
+
+function renderProductDescription(item) {
+  return `
+    <h3>${item.title}</h3>
+    ${item.details.paragraphs.map(paragraph => `<p>${paragraph}</p>`).join('')}
+    <dl class="pl-info-facts">
+      ${item.details.facts.map(([label, value]) => `
+        <div>
+          <dt>${label}:</dt>
+          <dd>${value}</dd>
+        </div>
+      `).join('')}
+    </dl>
+    <p>${item.details.usage}</p>
+    <p class="pl-info-weight"><strong>Khối lượng tịnh:</strong> ${item.details.weight}</p>
+  `;
+}
+
+function renderSharedPanel(panel) {
+  return `
+    <h3>${panel.heading}</h3>
+    ${panel.paragraphs.map(paragraph => `<p>${paragraph}</p>`).join('')}
+  `;
+}
+
+function openPlInfoDrawer(trigger) {
+  if (!plInfoDrawer || !plInfoDrawerOverlay || !plInfoDrawerTitle || !plInfoDrawerContent) return;
+
+  const panelKey = trigger.dataset.panel;
+  const productId = trigger.closest('.product-detail')?.id;
+  const item = plShowcaseDetails[productId];
+
+  if (panelKey === 'description' && item) {
+    plInfoDrawerTitle.textContent = 'Mô tả sản phẩm';
+    plInfoDrawerContent.innerHTML = renderProductDescription(item);
+  } else {
+    const panel = plSharedPanels[panelKey];
+    if (!panel) return;
+    plInfoDrawerTitle.textContent = panel.title;
+    plInfoDrawerContent.innerHTML = renderSharedPanel(panel);
+  }
+
+  plInfoDrawerTrigger = trigger;
+  plInfoDrawer.classList.add('is-open');
+  plInfoDrawerOverlay.classList.add('is-open');
+  plInfoDrawer.setAttribute('aria-hidden', 'false');
+  plInfoDrawerOverlay.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('pl-info-drawer-open');
+  plInfoDrawer.querySelector('.pl-info-drawer-close')?.focus();
+}
+
+function closePlInfoDrawer() {
+  if (!plInfoDrawer || !plInfoDrawerOverlay) return;
+  plInfoDrawer.classList.remove('is-open');
+  plInfoDrawerOverlay.classList.remove('is-open');
+  plInfoDrawer.setAttribute('aria-hidden', 'true');
+  plInfoDrawerOverlay.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('pl-info-drawer-open');
+  plInfoDrawerTrigger?.focus();
+  plInfoDrawerTrigger = null;
 }
 
 document.addEventListener('pointerdown', function (event) {
@@ -470,8 +716,24 @@ document.addEventListener('pointerup', function (event) {
 });
 
 document.addEventListener('click', function (event) {
+  const infoTrigger = event.target.closest('.pl-info-trigger');
+  if (infoTrigger) {
+    event.preventDefault();
+    openPlInfoDrawer(infoTrigger);
+    return;
+  }
+
+  if (event.target.closest('.pl-info-drawer-close') || event.target.classList.contains('pl-info-drawer-overlay')) {
+    closePlInfoDrawer();
+    return;
+  }
+
   const dot = event.target.closest('.pl-dot');
-  if (dot) setShowcaseIndex(dot.closest('.pl-showcase'), Number(dot.dataset.go));
+  if (dot) {
+    event.preventDefault();
+    setShowcaseIndex(dot.closest('.pl-showcase'), dot.dataset.go);
+    return;
+  }
 
   const previous = event.target.closest('.pl-previous');
   if (previous) {
@@ -494,6 +756,12 @@ document.addEventListener('click', function (event) {
     const lightbox = event.target.closest('.pl-lightbox');
     lightbox.hidden = true;
     document.body.classList.remove('pl-lightbox-open');
+  }
+});
+
+document.addEventListener('keydown', function (event) {
+  if (event.key === 'Escape' && document.body.classList.contains('pl-info-drawer-open')) {
+    closePlInfoDrawer();
   }
 });
 
@@ -608,6 +876,37 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 });
+
+/* Navbar: fade and hide while scrolling down, reveal while scrolling up. */
+(function initAutoHideNavbar() {
+  const navbar = document.querySelector('.site-nav');
+  if (!navbar) return;
+
+  let lastScrollY = Math.max(window.scrollY, 0);
+  let ticking = false;
+
+  function updateNavbar() {
+    const currentScrollY = Math.max(window.scrollY, 0);
+    const delta = currentScrollY - lastScrollY;
+    const menuIsOpen = document.body.classList.contains('drawer-is-open');
+    const searchIsOpen = document.body.classList.contains('ngs-search-open');
+
+    if (currentScrollY <= 24 || delta < -2 || menuIsOpen || searchIsOpen) {
+      navbar.classList.remove('is-hidden');
+    } else if (delta > 2 && currentScrollY > navbar.offsetHeight) {
+      navbar.classList.add('is-hidden');
+    }
+
+    lastScrollY = currentScrollY;
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', function () {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(updateNavbar);
+  }, { passive: true });
+})();
 
 /* =================================================
    NGỰ SẮC ANIMATION FINAL

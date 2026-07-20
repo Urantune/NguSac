@@ -16,7 +16,7 @@ window.NGU_SAC_INDEX_TEXT = {
     ]
   },
   story: {
-    title: 'CÂU CHUYỆN THÀNH PHẦN',
+    title: 'Câu Chuyện Thương Hiệu',
     subtitle: 'Sản phẩm chứa đựng cả di sản',
     paragraphs: [
       'Ngự Sắc được tạo nên từ cảm hứng về Phấn Nụ Cung Đình Huế – bí quyết làm đẹp truyền thống gắn liền với nét thanh nhã của phụ nữ hoàng gia triều Nguyễn.',

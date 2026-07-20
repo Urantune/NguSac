@@ -130,7 +130,6 @@ function applyIndexText() {
 
 /* ── INIT ───────────────────────────────────────────────────── */
 applyIndexText();
-observeReveal();
 updateIngredientPanelFocus();
 
 if (typeof updatePageSectionFocus === 'function') {
@@ -285,7 +284,6 @@ if (typeof updatePageSectionFocus === 'function') {
 
   function initAllAnimations() {
     initMotionReady();
-    initScrollReveal();
     initClickEffects();
     initImageLazyMotion();
 
@@ -304,6 +302,57 @@ if (typeof updatePageSectionFocus === 'function') {
   } else {
     initAllAnimations();
   }
+})();
+
+/* Product carousel: one product per view on phones. */
+(() => {
+  const section = document.querySelector('.ingredient-products-secondary');
+  if (!section) return;
+
+  const track = section.querySelector('.ingredient-products-track');
+  const cards = [...track.querySelectorAll('.ingredient-product-card')];
+  const previousButton = section.querySelector('.product-carousel-prev');
+  const nextButton = section.querySelector('.product-carousel-next');
+  const currentLabel = section.querySelector('.product-carousel-status b');
+  const totalLabel = section.querySelector('.product-carousel-status span:last-child');
+  let activeIndex = 0;
+  let scrollTimer;
+
+  const isPhone = () => window.matchMedia('(max-width: 720px)').matches;
+
+  function updateControls(index = activeIndex) {
+    activeIndex = isPhone() ? Math.max(0, Math.min(index, cards.length - 1)) : 0;
+    currentLabel.textContent = String(activeIndex + 1);
+    totalLabel.textContent = String(isPhone() ? cards.length : 1);
+    previousButton.disabled = !isPhone() || activeIndex === 0;
+    nextButton.disabled = !isPhone() || activeIndex === cards.length - 1;
+  }
+
+  function goTo(index) {
+    if (!isPhone()) return;
+    const targetIndex = Math.max(0, Math.min(index, cards.length - 1));
+    cards[targetIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    updateControls(targetIndex);
+  }
+
+  previousButton.addEventListener('click', () => goTo(activeIndex - 1));
+  nextButton.addEventListener('click', () => goTo(activeIndex + 1));
+
+  track.addEventListener('scroll', () => {
+    if (!isPhone()) return;
+    window.clearTimeout(scrollTimer);
+    scrollTimer = window.setTimeout(() => {
+      const index = cards.reduce((closest, card, cardIndex) => {
+        const currentDistance = Math.abs(card.offsetLeft - track.scrollLeft);
+        const closestDistance = Math.abs(cards[closest].offsetLeft - track.scrollLeft);
+        return currentDistance < closestDistance ? cardIndex : closest;
+      }, 0);
+      updateControls(index);
+    }, 80);
+  }, { passive: true });
+
+  window.addEventListener('resize', () => updateControls(), { passive: true });
+  updateControls();
 })();
 
 /* =========================================================
