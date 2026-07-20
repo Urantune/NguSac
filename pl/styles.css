@@ -220,7 +220,7 @@ body.ngs-search-open .nav-search-btn {
   position: fixed;
   inset: 0;
   z-index: 1400;
-  background: rgba(0, 0, 0, .38);
+  background: rgba(0, 0, 0, .35);
   opacity: 0;
   pointer-events: none;
   transition: opacity .35s ease;
@@ -240,7 +240,7 @@ body.ngs-search-open .nav-search-btn {
   height: 100dvh;
   display: flex;
   flex-direction: column;
-  padding: 88px 28px 32px;
+  padding: 82px 28px 32px;
   background: var(--nav-brown);
   box-shadow: 8px 0 34px rgba(0, 0, 0, .2);
   transform: translateX(-100%);
@@ -285,6 +285,23 @@ body.ngs-search-open .nav-search-btn {
   display: none !important;
 }
 
+.ngs-search-backdrop {
+  position: fixed;
+  inset: var(--nav-height) 0 0;
+  z-index: 6500;
+  background: rgba(255, 255, 255, .68);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .28s ease;
+}
+
+body.ngs-search-open .ngs-search-backdrop {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 .ngs-search-form {
   position: fixed;
   right: 64px;
@@ -295,7 +312,9 @@ body.ngs-search-open .nav-search-btn {
   display: flex;
   align-items: center;
   gap: 8px;
+  padding: 0 8px;
   border-bottom: 1.5px solid rgba(255, 248, 239, .9);
+  background: #fff;
   color: var(--cream);
   opacity: 0;
   pointer-events: none;
@@ -320,6 +339,14 @@ body.ngs-search-open .ngs-search-form {
   font-family: "Be Vietnam Pro", "DM Sans", Arial, sans-serif;
   font-size: 12.5px;
   font-weight: 700;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.ngs-search-input::-webkit-search-cancel-button,
+.ngs-search-input::-webkit-search-decoration {
+  display: none;
+  -webkit-appearance: none;
 }
 
 .ngs-search-input::placeholder {
@@ -357,7 +384,7 @@ body.ngs-search-open .ngs-search-form {
   padding: 18px;
   border: 1px solid var(--line);
   border-radius: 0 0 22px 22px;
-  background: rgba(255, 248, 239, .98);
+  background: #fff;
   color: var(--royal-red);
   box-shadow: 0 22px 60px rgba(59, 42, 36, .18);
   opacity: 0;
@@ -475,30 +502,27 @@ body.ngs-search-open .ngs-search-popover {
 /* FOOTER */
 .site-footer,
 .footer {
-  padding: 64px 48px 34px;
+  position: relative;
+  z-index: 2;
+  padding: 72px 48px 40px;
   background: var(--royal-red);
   color: rgba(255, 248, 239, .78);
 }
 
 .site-footer-grid,
 .footer-grid {
-  max-width: 1180px;
   display: grid;
-  grid-template-columns: 1.6fr 1fr 1fr;
-  gap: 42px;
-  margin: 0 auto 40px;
-}
-
-.footer-grid {
   grid-template-columns: 1.8fr 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 60px;
 }
 
 .site-footer-logo,
 .footer-logo {
-  margin-bottom: 14px;
+  margin-bottom: 16px;
   color: var(--cream);
   font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: 29px;
+  font-size: 44px;
   font-weight: 700;
   letter-spacing: .11em;
 }
@@ -510,7 +534,11 @@ body.ngs-search-open .ngs-search-popover {
 }
 
 .site-footer p,
-.footer-tagline {
+.footer-tagline,
+.footer-links a,
+.footer-links span,
+.footer-bottom,
+.footer-bottom-links a {
   max-width: 430px;
   color: rgba(255, 248, 239, .78);
   font-family: "Be Vietnam Pro", "DM Sans", Arial, sans-serif;
@@ -521,12 +549,12 @@ body.ngs-search-open .ngs-search-popover {
 
 .site-footer h4,
 .footer-col-title {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   color: var(--cream);
   font-family: "Be Vietnam Pro", "DM Sans", Arial, sans-serif;
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: .09em;
+  letter-spacing: .08em;
   text-transform: uppercase;
 }
 
@@ -541,6 +569,18 @@ body.ngs-search-open .ngs-search-popover {
   font-weight: 500;
 }
 
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-links a,
+.footer-links span {
+  margin-bottom: 0;
+  font-size: 13px;
+}
+
 .site-footer a:hover,
 .footer-links a:hover,
 .footer-bottom-links a:hover {
@@ -549,9 +589,7 @@ body.ngs-search-open .ngs-search-popover {
 
 .site-footer-bottom,
 .footer-bottom {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding-top: 24px;
+  padding-top: 28px;
   border-top: 1px solid rgba(255, 248, 239, .18);
   color: rgba(255, 248, 239, .76);
   font-family: "Be Vietnam Pro", "DM Sans", Arial, sans-serif;
@@ -562,6 +600,11 @@ body.ngs-search-open .ngs-search-popover {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.footer-bottom-links {
+  display: flex;
+  gap: 24px;
 }
 
 /* MOTION */
@@ -664,15 +707,37 @@ body.ngs-search-open .ngs-search-popover {
   }
 
   .ngs-search-form {
-    right: 18px;
-    width: min(210px, 52vw);
+    top: var(--nav-height);
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 58px;
+    padding: 8px 22px;
+    border-bottom: 1px solid rgba(0, 0, 0, .72);
+    background: #fff;
+    transform: translateY(-12px);
+  }
+
+  body.ngs-search-open .ngs-search-form {
+    transform: translateY(0);
+  }
+
+  .ngs-search-input,
+  .ngs-search-input::placeholder {
+    font-size: 14px;
   }
 
   .ngs-search-popover {
-    left: 12px;
-    right: 12px;
-    width: auto;
-    padding: 15px;
+    top: calc(var(--nav-height) + 58px);
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: calc(100svh - var(--nav-height) - 58px);
+    padding: 24px 22px 34px;
+    border: 0;
+    border-radius: 0;
+    background: #fff;
+    box-shadow: none;
   }
 
   .ngs-search-head {
@@ -681,12 +746,19 @@ body.ngs-search-open .ngs-search-popover {
   }
 
   .ngs-search-card {
-    grid-template-columns: 62px 1fr;
+    min-height: 96px;
+    grid-template-columns: 82px 1fr;
+    gap: 16px;
+    padding: 10px 0;
+    border: 0;
+    border-radius: 0;
+    background: #fff;
   }
 
   .ngs-search-card img {
-    width: 62px;
-    height: 62px;
+    width: 82px;
+    height: 82px;
+    border-radius: 0;
   }
 
   .ngs-search-arrow {
@@ -695,13 +767,14 @@ body.ngs-search-open .ngs-search-popover {
 
   .site-footer,
   .footer {
-    padding: 50px 20px 30px;
+    padding: 52px 20px 32px;
   }
 
   .site-footer-grid,
   .footer-grid {
     grid-template-columns: 1fr;
     gap: 28px;
+    margin-bottom: 38px;
   }
 
   .footer-bottom {
@@ -713,11 +786,11 @@ body.ngs-search-open .ngs-search-popover {
 
 @media (max-width: 430px) {
   .ngs-search-form {
-    width: 170px;
+    width: 100%;
   }
 
   .ngs-search-input::placeholder {
-    color: transparent;
+    color: rgba(0, 0, 0, .5);
   }
 }
 
@@ -1409,6 +1482,7 @@ body.ngs-search-open .ngs-search-popover {
 .footer-tagline,
 .site-footer a,
 .footer-links a,
+.footer-links span,
 .site-footer-bottom,
 .footer-bottom,
 .footer-bottom-links a {
@@ -1827,6 +1901,7 @@ body.ngs-search-open .ngs-search-popover {
 }
 
 .pl-process-video {
+  position: relative;
   width: min(1200px, 82%);
   margin: 0 auto;
   overflow: hidden;
@@ -1840,6 +1915,63 @@ body.ngs-search-open .ngs-search-popover {
   margin: 0 auto;
   object-fit: contain;
   object-position: center;
+}
+
+.video-controls {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  z-index: 4;
+  display: flex;
+  gap: 5px;
+}
+
+.video-control {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, .24);
+  color: #fff;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  transition: background .2s ease, transform .2s ease;
+}
+
+.video-control:hover {
+  background: rgba(0, 0, 0, .4);
+}
+
+.video-control:active {
+  transform: scale(.96);
+}
+
+.video-control:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.video-control svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.video-control .icon-sound-off,
+.video-control .icon-play,
+.video-control-mute.is-muted .icon-sound-on,
+.video-control-play.is-paused .icon-pause {
+  display: none;
+}
+
+.video-control-mute.is-muted .icon-sound-off,
+.video-control-play.is-paused .icon-play {
+  display: block;
 }
 
 .pl-process h2 {
@@ -2162,8 +2294,10 @@ body.pl-lightbox-open {
   }
 
   .pl-process h2 {
-    margin-top: 26px;
-    font-size: clamp(23px, 7vw, 30px);
+    margin-top: 22px;
+    padding: 0 12px;
+    font-size: clamp(18px, 5vw, 22px);
+    line-height: 1.25;
   }
 
   .pl-info-drawer {

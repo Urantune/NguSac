@@ -19,6 +19,66 @@ document.querySelectorAll('#navDrawer a').forEach(link => {
   link.addEventListener('click', closeDrawer);
 });
 
+/* ── CUSTOM VIDEO CONTROLS ─────────────────────────────────── */
+function initCustomVideoControls(root = document) {
+  root.querySelectorAll('video[data-custom-controls]').forEach(video => {
+    if (video.dataset.controlsReady === 'true') return;
+
+    const controls = document.createElement('div');
+    controls.className = 'video-controls';
+    controls.setAttribute('aria-label', 'Điều khiển video');
+    controls.innerHTML = `
+      <button class="video-control video-control-mute is-muted" type="button" aria-label="Bật âm thanh" aria-pressed="true">
+        <svg class="icon-sound-on" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 9v6h4l5 4V5L8 9H4Z"></path>
+          <path d="M16 9.2c1.5 1.5 1.5 4.1 0 5.6M18.5 6.8c2.9 2.9 2.9 7.5 0 10.4"></path>
+        </svg>
+        <svg class="icon-sound-off" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 9v6h4l5 4V5L8 9H4Z"></path>
+          <path d="m17 10 4 4m0-4-4 4"></path>
+        </svg>
+      </button>
+      <button class="video-control video-control-play" type="button" aria-label="Dừng video" aria-pressed="false">
+        <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"></path></svg>
+        <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"></path></svg>
+      </button>
+    `;
+    video.insertAdjacentElement('afterend', controls);
+
+    const muteButton = controls.querySelector('.video-control-mute');
+    const playButton = controls.querySelector('.video-control-play');
+    video.muted = true;
+    video.defaultMuted = true;
+    video.controls = false;
+    video.dataset.controlsReady = 'true';
+
+    const updateMuteButton = () => {
+      muteButton.classList.toggle('is-muted', video.muted);
+      muteButton.setAttribute('aria-pressed', String(video.muted));
+      muteButton.setAttribute('aria-label', video.muted ? 'Bật âm thanh' : 'Tắt âm thanh');
+    };
+
+    const updatePlayButton = () => {
+      playButton.classList.toggle('is-paused', video.paused);
+      playButton.setAttribute('aria-pressed', String(video.paused));
+      playButton.setAttribute('aria-label', video.paused ? 'Phát video' : 'Dừng video');
+    };
+
+    muteButton.addEventListener('click', () => { video.muted = !video.muted; });
+    playButton.addEventListener('click', () => {
+      if (video.paused) video.play().catch(updatePlayButton);
+      else video.pause();
+    });
+    video.addEventListener('volumechange', updateMuteButton);
+    video.addEventListener('play', updatePlayButton);
+    video.addEventListener('pause', updatePlayButton);
+    updateMuteButton();
+    updatePlayButton();
+  });
+}
+
+initCustomVideoControls();
+
 /* ── INGREDIENT MAP IS NOW EMBEDDED ON HOME ───────────────── */
 
 /* ── INGREDIENT PANEL FOCUS ────────────────────────────────── */

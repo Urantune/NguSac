@@ -152,7 +152,7 @@ window.NGU_SAC_PL_TEXT = {
   },
 
   footer: {
-    tagline: 'Mỹ phẩm thiên nhiên lấy cảm hứng từ Phấn Nụ Cung Đình Huế.',
-    credit: '© 2026 NGỰ SẮC. Nội dung demo phục vụ giới thiệu dự án.'
+    tagline: 'Mỹ phẩm thiên nhiên lấy cảm hứng từ Phấn Nụ Cung Đình Huế, kết hợp tinh thần di sản với trải nghiệm làm đẹp hiện đại.',
+    credit: '© 2026 NGỰ SẮC.'
   }
 };

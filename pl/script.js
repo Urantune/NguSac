@@ -376,6 +376,7 @@ const plShowcaseDetails = {
     eyebrow: 'Phấn Phủ Thiên Nhiên',
     title: 'Phấn Phủ Ngự Sắc',
     subtitle: 'Phấn phủ làm mịn – Kiềm dầu nhẹ – Cảm hứng từ Phấn Nụ Cung Đình Huế',
+    summary: 'Mềm mại và nhẹ nhàng, Phấn Má Hồng Ngự Sắc mang đến sắc hồng tự nhiên, giúp gương mặt trở nên tươi tắn nhưng vẫn giữ được vẻ thanh lịch và tinh tế. Chất phấn mịn, dễ tán và có thể điều chỉnh độ đậm nhạt tùy theo phong cách trang điểm. Một lớp phấn nhẹ tạo hiệu ứng ửng hồng trong trẻo, trong khi...',
     innovation: {
       image: '../assets/pl/products/PhanPhu/nd_phanphu1.png',
       title: 'Phấn phủ thiên nhiên mang tinh thần cung đình Huế',
@@ -422,6 +423,7 @@ const plShowcaseDetails = {
     eyebrow: 'Phấn Má Hồng Thiên Nhiên',
     title: 'Phấn Má Hồng Ngự Sắc',
     subtitle: 'Sắc hồng tự nhiên – Hiệu ứng tươi tắn – Cảm hứng cung đình Huế',
+    summary: 'Mềm mại và nhẹ nhàng, Phấn Má Hồng Ngự Sắc mang đến sắc hồng tự nhiên, giúp gương mặt trở nên tươi tắn nhưng vẫn giữ được vẻ thanh lịch và tinh tế. Chất phấn mịn, dễ tán và có thể điều chỉnh độ đậm nhạt tùy theo phong cách trang điểm. Một lớp phấn nhẹ tạo hiệu ứng ửng hồng trong trẻo, trong khi...',
     innovation: {
       image: '../assets/pl/products/PhanMa/nd_phanma1.png',
       title: 'Sắc hồng truyền thống trong phong cách hiện đại',
@@ -468,6 +470,7 @@ const plShowcaseDetails = {
     eyebrow: 'Son Dưỡng Từ Dừa',
     title: 'Son Dưỡng Ngự Sắc',
     subtitle: 'Dưỡng ẩm mềm môi – Hạn chế khô ráp – Cảm hứng vẻ đẹp Việt',
+    summary: 'Mềm mại và dễ sử dụng, Son Dưỡng Ngự Sắc tạo một lớp dưỡng mỏng nhẹ trên môi, giúp đôi môi có cảm giác ẩm mượt và hạn chế tình trạng khô ráp. Công thức được phát triển từ dầu dừa, sáp ong, vitamin E và vaseline. Dầu dừa góp phần cung cấp độ ẩm, sáp ong giúp tạo kết cấu ổn định, trong khi vaseline giúp tăng...',
     innovation: {
       image: '../assets/pl/products/SonDuong/nd_sonduong1.png',
       title: 'Son dưỡng thiên nhiên mang cảm hứng vẻ đẹp Việt',
@@ -553,7 +556,7 @@ renderProductSection = function (section) {
 
     <div class="pl-product-content">
       <article class="pl-product-summary">
-        <p class="pl-product-summary-text">${item.details.paragraphs.slice(0, 2).join(' ')}</p>
+        <p class="pl-product-summary-text">${item.summary}</p>
         <button class="pl-info-trigger pl-see-more" type="button" data-panel="description">
           Xem thêm
         </button>
@@ -590,10 +593,26 @@ renderProductSection = function (section) {
 
     <section class="pl-process" aria-label="${item.process.title}">
       <div class="pl-process-video">
-        <video autoplay muted loop playsinline controls preload="metadata">
+        <video autoplay muted loop playsinline data-custom-controls preload="metadata">
           <source src="${item.process.video}" type="video/mp4">
           Trình duyệt của bạn không hỗ trợ phát video.
         </video>
+        <div class="video-controls" aria-label="Điều khiển video">
+          <button class="video-control video-control-mute is-muted" type="button" aria-label="Bật âm thanh" aria-pressed="true">
+            <svg class="icon-sound-on" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 9v6h4l5 4V5L8 9H4Z"></path>
+              <path d="M16 9.2c1.5 1.5 1.5 4.1 0 5.6M18.5 6.8c2.9 2.9 2.9 7.5 0 10.4"></path>
+            </svg>
+            <svg class="icon-sound-off" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 9v6h4l5 4V5L8 9H4Z"></path>
+              <path d="m17 10 4 4m0-4-4 4"></path>
+            </svg>
+          </button>
+          <button class="video-control video-control-play" type="button" aria-label="Dừng video" aria-pressed="false">
+            <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"></path></svg>
+            <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"></path></svg>
+          </button>
+        </div>
       </div>
       <h2>${item.process.title}</h2>
     </section>
@@ -761,6 +780,45 @@ document.addEventListener('keydown', function (event) {
   }
 });
 
+function initProductVideoControls() {
+  document.querySelectorAll('.pl-process-video video[data-custom-controls]').forEach(video => {
+    if (video.dataset.controlsReady === 'true') return;
+
+    const controls = video.parentElement.querySelector('.video-controls');
+    const muteButton = controls?.querySelector('.video-control-mute');
+    const playButton = controls?.querySelector('.video-control-play');
+    if (!controls || !muteButton || !playButton) return;
+
+    video.muted = true;
+    video.defaultMuted = true;
+    video.controls = false;
+    video.dataset.controlsReady = 'true';
+
+    const updateMuteButton = () => {
+      muteButton.classList.toggle('is-muted', video.muted);
+      muteButton.setAttribute('aria-pressed', String(video.muted));
+      muteButton.setAttribute('aria-label', video.muted ? 'Bật âm thanh' : 'Tắt âm thanh');
+    };
+
+    const updatePlayButton = () => {
+      playButton.classList.toggle('is-paused', video.paused);
+      playButton.setAttribute('aria-pressed', String(video.paused));
+      playButton.setAttribute('aria-label', video.paused ? 'Phát video' : 'Dừng video');
+    };
+
+    muteButton.addEventListener('click', () => { video.muted = !video.muted; });
+    playButton.addEventListener('click', () => {
+      if (video.paused) video.play().catch(updatePlayButton);
+      else video.pause();
+    });
+    video.addEventListener('volumechange', updateMuteButton);
+    video.addEventListener('play', updatePlayButton);
+    video.addEventListener('pause', updatePlayButton);
+    updateMuteButton();
+    updatePlayButton();
+  });
+}
+
 function applyProductText() {
   const text = window.NGU_SAC_PL_TEXT;
   if (!text) return;
@@ -776,10 +834,12 @@ function applyProductText() {
     renderProductSection(section, product);
   });
 
-  const footerLogoText = document.querySelector('.site-footer p');
+  initProductVideoControls();
+
+  const footerLogoText = document.querySelector('.footer-tagline');
   if (footerLogoText) footerLogoText.textContent = text.footer.tagline;
 
-  const footerBottom = document.querySelector('.site-footer-bottom');
+  const footerBottom = document.querySelector('.footer-bottom > span');
   if (footerBottom) footerBottom.textContent = text.footer.credit;
 }
 

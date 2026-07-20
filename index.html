@@ -49,8 +49,8 @@
 
   <div class="nav-drawer" id="navDrawer">
     <a href="#home" data-nav-target="home">Trang chủ</a>
-    <a href="#ingredients" data-nav-target="ingredients">Thành phần</a>
-    <a href="#products" data-nav-target="products">Xem các sản phẩm</a>
+    <a href="#ingredient-map-home" data-nav-target="ingredients">Thành phần</a>
+    <a href="#product-routine" data-nav-target="products">Xem các sản phẩm</a>
   </div>
 
   <main>
@@ -62,6 +62,7 @@
   muted
   loop
   playsinline
+  data-custom-controls
   preload="auto"
   poster="assets/index/hero/THANHPHAN.png"
 >
@@ -81,34 +82,34 @@
         <div class="ingredient-products ingredient-products-hero" id="products" aria-label="Sản phẩm liên quan">
           <div class="ingredient-products-track">
             <article class="ingredient-product-card product-phan-phu">
-              <img src="assets/index/hinhmn/tranhu.png" alt="Phấn Nụ">
-              <div class="ingredient-product-body">
-                <h4>Phấn Phủ</h4>
-                <a href="pl/pl.html#phan-nu">Khám phá</a>
-              </div>
-            </article>
-
-            <article class="ingredient-product-card product-phan-ma">
-              <img src="assets/index/hinhmn/duykhang.png" alt="Phấn Má">
+              <img src="assets/index/hinhmn/tranhu.png" alt="Phấn Má Hồng">
               <div class="ingredient-product-body">
                 <h4>Phấn Má Hồng</h4>
                 <a href="pl/pl.html#phan-ma">Khám phá</a>
               </div>
             </article>
 
-            <article class="ingredient-product-card product-son-duong">
-              <img src="assets/index/hinhmn/kimanh.png" alt="Son Dưỡng">
+            <article class="ingredient-product-card product-phan-ma">
+              <img src="assets/index/hinhmn/duykhang.png" alt="Son Dưỡng">
               <div class="ingredient-product-body">
                 <h4>Son Dưỡng</h4>
                 <a href="pl/pl.html#son-duong">Khám phá</a>
               </div>
             </article>
 
-            <article class="ingredient-product-card product-thanh-phan">
-              <img src="assets/index/hinhmn/tangiang.png" alt="Thành Phần">
+            <article class="ingredient-product-card product-son-duong">
+              <img src="assets/index/hinhmn/kimanh.png" alt="Thành Phần">
               <div class="ingredient-product-body">
                 <h4>Thành Phần</h4>
-                <a href="nl/ml.html">Khám phá</a>
+                <a href="#ingredient-map-home">Khám phá</a>
+              </div>
+            </article>
+
+            <article class="ingredient-product-card product-thanh-phan">
+              <img src="assets/index/hinhmn/tangiang.png" alt="Phấn Phủ">
+              <div class="ingredient-product-body">
+                <h4>Phấn Phủ</h4>
+                <a href="pl/pl.html#phan-nu">Khám phá</a>
               </div>
             </article>
           </div>
@@ -510,7 +511,7 @@
 </div>
 
         <section class="brand-culture-video" aria-label="Video văn hóa Ngự Sắc">
-          <video autoplay muted loop playsinline controls preload="metadata">
+          <video autoplay muted loop playsinline data-custom-controls preload="metadata">
             <source src="assets/index/hero/videovanhoa.mp4" type="video/mp4">
             Trình duyệt của bạn không hỗ trợ phát video.
           </video>
@@ -584,38 +585,36 @@
       </div>
 
       <div>
-        <h4 class="footer-col-title">Công ty</h4>
         <div class="footer-links">
           <a href="#home">Trang chủ</a>
-          <a href="#ingredients">Thành phần</a>
-          <a href="#ingredient-map-home">Nguyên liệu</a>
+          <a href="#ingredient-map-home">Thành phần</a>
+          <a href="#product-routine">Xem các sản phẩm</a>
         </div>
       </div>
 
       <div>
         <h4 class="footer-col-title">Thông tin</h4>
         <div class="footer-links">
-          <a href="pl/pl.html#phan-nu">Sản phẩm</a>
-          <a href="#ingredients">Câu chuyện thương hiệu</a>
-          <a href="#ingredients">QR minh bạch</a>
+          <a href="pl/pl.html#phan-nu">Phấn Phủ Ngự Sắc</a>
+          <a href="pl/pl.html#phan-ma">Phấn Má Hồng Ngự Sắc</a>
+          <a href="pl/pl.html#son-duong">Son Dưỡng Ngự Sắc</a>
         </div>
       </div>
 
       <div>
         <h4 class="footer-col-title">Liên hệ</h4>
         <div class="footer-links">
-          <a href="mailto:hello@ngusac.vn">hello@ngusac.vn</a>
-          <a href="tel:+84000000000">+84 000 000 000</a>
-          <a href="#home">Huế, Việt Nam</a>
+          <a href="https://ngusac.ddns.net">ngusac.ddns.net</a>
+          <span>Việt Nam</span>
         </div>
       </div>
     </div>
 
     <div class="footer-bottom">
-      <span>© 2026 NGỰ SẮC. Nội dung demo phục vụ giới thiệu dự án.</span>
+      <span>© 2026 NGỰ SẮC.</span>
       <div class="footer-bottom-links">
         <a href="#home">Home</a>
-        <a href="#ingredients">Ingredients</a>
+        <a href="#ingredient-map-home">Ingredients</a>
       </div>
     </div>
   </footer>
@@ -690,6 +689,13 @@
     }
 
     function createUI() {
+      if (!document.querySelector('.ngs-search-backdrop')) {
+        const backdrop = document.createElement('div');
+        backdrop.className = 'ngs-search-backdrop';
+        backdrop.setAttribute('aria-hidden', 'true');
+        document.body.appendChild(backdrop);
+      }
+
       if (!document.querySelector('.ngs-search-form')) {
         const form = document.createElement('form');
         form.className = 'ngs-search-form';
@@ -704,9 +710,8 @@
           <button class="ngs-search-close" type="button" aria-label="Đóng tìm kiếm">×</button>
 
           <button class="ngs-search-submit" type="submit" aria-label="Tìm kiếm">
-            <svg viewBox="0 0 24 24" fill="none">
-              <circle cx="11" cy="11" r="7"></circle>
-              <path d="M16.5 16.5L21 21"></path>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M20 20L15.8 15.8M18 10.5A7.5 7.5 0 1 1 3 10.5a7.5 7.5 0 0 1 15 0Z"></path>
             </svg>
           </button>
         `;

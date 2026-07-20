@@ -33,44 +33,42 @@ window.NGU_SAC_INDEX_TEXT = {
   description: 'Những dòng sản phẩm dùng cùng nhóm nguyên liệu thiên nhiên trong bảng thành phần.',
   items: [
     {
-      id: 'phan-nu',
-      name: 'Phấn Phủ',
-      image: 'assets/index/hinhmn/tranhu.png',
-      alt: 'Phấn Phủ',
-      link: 'pl/pl.html#phan-nu'
-    },
-    {
       id: 'phan-ma',
       name: 'Phấn Má Hồng',
-      image: 'assets/index/hinhmn/duykhang.png',
-      alt: 'Phấn Má',
+      image: 'assets/index/hinhmn/tranhu.png',
+      alt: 'Phấn Má Hồng',
       link: 'pl/pl.html#phan-ma'
     },
     {
       id: 'son-duong',
       name: 'Son Dưỡng',
-      image: 'assets/index/hinhmn/kimanh.png',
+      image: 'assets/index/hinhmn/duykhang.png',
       alt: 'Son Dưỡng',
       link: 'pl/pl.html#son-duong'
     },
     {
       id: 'thanh-phan',
       name: 'Thành Phần',
-      image: 'assets/index/hinhmn/tangiang.png',
+      image: 'assets/index/hinhmn/kimanh.png',
       alt: 'Thành Phần',
-      link: 'nl/ml.html'
+      link: '#ingredient-map-home'
+    },
+    {
+      id: 'phan-nu',
+      name: 'Phấn Phủ',
+      image: 'assets/index/hinhmn/tangiang.png',
+      alt: 'Phấn Phủ',
+      link: 'pl/pl.html#phan-nu'
     }
   ]
 },
 
   footer: {
     tagline: 'Mỹ phẩm thiên nhiên lấy cảm hứng từ Phấn Nụ Cung Đình Huế, kết hợp tinh thần di sản với trải nghiệm làm đẹp hiện đại.',
-    company: 'Công ty',
     info: 'Thông tin',
     contact: 'Liên hệ',
-    email: 'hello@ngusac.vn',
-    phone: '+84 000 000 000',
-    location: 'Huế, Việt Nam',
-    credit: '© 2026 NGỰ SẮC. Nội dung demo phục vụ giới thiệu dự án.'
+    website: 'ngusac.ddns.net',
+    location: 'Việt Nam',
+    credit: '© 2026 NGỰ SẮC.'
   }
 };
