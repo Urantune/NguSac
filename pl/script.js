@@ -593,7 +593,7 @@ renderProductSection = function (section) {
 
     <section class="pl-process" aria-label="${item.process.title}">
       <div class="pl-process-video">
-        <video autoplay muted loop playsinline data-custom-controls preload="metadata">
+        <video muted loop playsinline data-custom-controls preload="metadata">
           <source src="${item.process.video}" type="video/mp4">
           Trình duyệt của bạn không hỗ trợ phát video.
         </video>
@@ -781,7 +781,9 @@ document.addEventListener('keydown', function (event) {
 });
 
 function initProductVideoControls() {
-  document.querySelectorAll('.pl-process-video video[data-custom-controls]').forEach(video => {
+  const videos = [...document.querySelectorAll('.pl-process-video video[data-custom-controls]')];
+
+  videos.forEach(video => {
     if (video.dataset.controlsReady === 'true') return;
 
     const controls = video.parentElement.querySelector('.video-controls');
@@ -793,6 +795,8 @@ function initProductVideoControls() {
     video.defaultMuted = true;
     video.controls = false;
     video.dataset.controlsReady = 'true';
+    video.dataset.userPaused = 'false';
+    video.dataset.inViewport = 'false';
 
     const updateMuteButton = () => {
       muteButton.classList.toggle('is-muted', video.muted);
@@ -808,14 +812,53 @@ function initProductVideoControls() {
 
     muteButton.addEventListener('click', () => { video.muted = !video.muted; });
     playButton.addEventListener('click', () => {
-      if (video.paused) video.play().catch(updatePlayButton);
-      else video.pause();
+      if (video.paused) {
+        video.dataset.userPaused = 'false';
+        video.play().catch(updatePlayButton);
+      } else {
+        video.dataset.userPaused = 'true';
+        video.pause();
+      }
     });
     video.addEventListener('volumechange', updateMuteButton);
     video.addEventListener('play', updatePlayButton);
     video.addEventListener('pause', updatePlayButton);
     updateMuteButton();
     updatePlayButton();
+  });
+
+  if (!('IntersectionObserver' in window)) {
+    videos.forEach(video => video.play().catch(() => {}));
+    return;
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      const video = entry.target;
+      const isVisible = entry.isIntersecting && entry.intersectionRatio >= .25;
+      video.dataset.inViewport = String(isVisible);
+
+      if (isVisible && video.dataset.userPaused !== 'true' && !document.hidden) {
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+  }, { threshold: [0, .25, .6] });
+
+  videos.forEach(video => {
+    video.pause();
+    observer.observe(video);
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    videos.forEach(video => {
+      if (document.hidden) {
+        video.pause();
+      } else if (video.dataset.inViewport === 'true' && video.dataset.userPaused !== 'true') {
+        video.play().catch(() => {});
+      }
+    });
   });
 }
 

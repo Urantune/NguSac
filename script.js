@@ -21,7 +21,9 @@ document.querySelectorAll('#navDrawer a').forEach(link => {
 
 /* ── CUSTOM VIDEO CONTROLS ─────────────────────────────────── */
 function initCustomVideoControls(root = document) {
-  root.querySelectorAll('video[data-custom-controls]').forEach(video => {
+  const videos = [...root.querySelectorAll('video[data-custom-controls]')];
+
+  videos.forEach(video => {
     if (video.dataset.controlsReady === 'true') return;
 
     const controls = document.createElement('div');
@@ -51,6 +53,8 @@ function initCustomVideoControls(root = document) {
     video.defaultMuted = true;
     video.controls = false;
     video.dataset.controlsReady = 'true';
+    video.dataset.userPaused = 'false';
+    video.dataset.inViewport = 'false';
 
     const updateMuteButton = () => {
       muteButton.classList.toggle('is-muted', video.muted);
@@ -66,14 +70,53 @@ function initCustomVideoControls(root = document) {
 
     muteButton.addEventListener('click', () => { video.muted = !video.muted; });
     playButton.addEventListener('click', () => {
-      if (video.paused) video.play().catch(updatePlayButton);
-      else video.pause();
+      if (video.paused) {
+        video.dataset.userPaused = 'false';
+        video.play().catch(updatePlayButton);
+      } else {
+        video.dataset.userPaused = 'true';
+        video.pause();
+      }
     });
     video.addEventListener('volumechange', updateMuteButton);
     video.addEventListener('play', updatePlayButton);
     video.addEventListener('pause', updatePlayButton);
     updateMuteButton();
     updatePlayButton();
+  });
+
+  if (!('IntersectionObserver' in window)) {
+    videos.forEach(video => video.play().catch(() => {}));
+    return;
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      const video = entry.target;
+      const isVisible = entry.isIntersecting && entry.intersectionRatio >= .25;
+      video.dataset.inViewport = String(isVisible);
+
+      if (isVisible && video.dataset.userPaused !== 'true' && !document.hidden) {
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+  }, { threshold: [0, .25, .6] });
+
+  videos.forEach(video => {
+    video.pause();
+    observer.observe(video);
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    videos.forEach(video => {
+      if (document.hidden) {
+        video.pause();
+      } else if (video.dataset.inViewport === 'true' && video.dataset.userPaused !== 'true') {
+        video.play().catch(() => {});
+      }
+    });
   });
 }
 
