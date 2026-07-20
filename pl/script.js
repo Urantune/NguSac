@@ -619,7 +619,25 @@ renderProductSection = function (section) {
 
     <div class="pl-lightbox" role="dialog" aria-modal="true" aria-label="Ảnh sản phẩm toàn màn hình" hidden>
       <button class="pl-lightbox-close" type="button" aria-label="Đóng">×</button>
-      <img src="${item.gallery[0]}" alt="${item.title}">
+      <div class="pl-lightbox-zoom" role="group" aria-label="Mức phóng to">
+        ${[0, 20, 40, 60, 80, 100].map(level => `
+          <button class="pl-lightbox-zoom-step ${level === 0 ? 'is-active' : ''}" type="button" data-zoom="${level}" aria-label="Phóng to ${level}%" aria-pressed="${level === 0}">
+            <span>${level}%</span>
+          </button>
+        `).join('')}
+      </div>
+
+      <div class="pl-lightbox-stage">
+        <img class="pl-lightbox-main" src="${item.gallery[0]}" alt="${item.title}">
+      </div>
+
+      <div class="pl-lightbox-thumbs" aria-label="Chọn ảnh sản phẩm">
+        ${item.gallery.map((src, index) => `
+          <button class="pl-lightbox-thumb ${index === 0 ? 'is-active' : ''}" type="button" data-lightbox-index="${index}" aria-label="Xem ảnh ${index + 1}" aria-current="${index === 0 ? 'true' : 'false'}">
+            <img src="${src}" alt="" aria-hidden="true">
+          </button>
+        `).join('')}
+      </div>
     </div>
   `;
 };
@@ -641,6 +659,45 @@ function setShowcaseIndex(showcase, nextIndex) {
     dot.classList.toggle('is-active', dotIndex === index);
     dot.setAttribute('aria-current', dotIndex === index ? 'true' : 'false');
   });
+}
+
+function setLightboxZoom(lightbox, nextZoom) {
+  if (!lightbox) return;
+
+  const zoom = Math.max(0, Math.min(100, Number(nextZoom) || 0));
+  lightbox.dataset.zoom = String(zoom);
+  lightbox.style.setProperty('--pl-lightbox-scale', String(1 + zoom / 100));
+
+  lightbox.querySelectorAll('.pl-lightbox-zoom-step').forEach(button => {
+    const isActive = Number(button.dataset.zoom) === zoom;
+    button.classList.toggle('is-active', isActive);
+    button.setAttribute('aria-pressed', String(isActive));
+  });
+}
+
+function setLightboxIndex(lightbox, nextIndex) {
+  const thumbs = [...lightbox.querySelectorAll('.pl-lightbox-thumb')];
+  if (!thumbs.length) return;
+
+  const requestedIndex = Number(nextIndex) || 0;
+  const index = ((requestedIndex % thumbs.length) + thumbs.length) % thumbs.length;
+  const selectedImage = thumbs[index].querySelector('img');
+  const mainImage = lightbox.querySelector('.pl-lightbox-main');
+
+  lightbox.dataset.index = String(index);
+  mainImage.src = selectedImage.src;
+  thumbs.forEach((thumb, thumbIndex) => {
+    const isActive = thumbIndex === index;
+    thumb.classList.toggle('is-active', isActive);
+    thumb.setAttribute('aria-current', String(isActive));
+  });
+}
+
+function closeLightbox(lightbox) {
+  if (!lightbox) return;
+  lightbox.hidden = true;
+  setLightboxZoom(lightbox, 0);
+  document.body.classList.remove('pl-lightbox-open');
 }
 
 const plInfoDrawer = document.querySelector('.pl-info-drawer');
@@ -762,21 +819,46 @@ document.addEventListener('click', function (event) {
     const showcase = fullscreen.closest('.pl-showcase');
     const lightbox = section.querySelector('.pl-lightbox');
     const index = Number(showcase.dataset.index || 0);
-    lightbox.querySelector('img').src = showcase.querySelectorAll('.pl-slide img')[index].src;
+    setLightboxIndex(lightbox, index);
+    setLightboxZoom(lightbox, 0);
     lightbox.hidden = false;
     document.body.classList.add('pl-lightbox-open');
+    lightbox.querySelector('.pl-lightbox-close')?.focus();
+    return;
   }
 
   if (event.target.closest('.pl-lightbox-close') || event.target.classList.contains('pl-lightbox')) {
     const lightbox = event.target.closest('.pl-lightbox');
-    lightbox.hidden = true;
-    document.body.classList.remove('pl-lightbox-open');
+    closeLightbox(lightbox);
+    return;
+  }
+
+  const zoomStep = event.target.closest('.pl-lightbox-zoom-step');
+  if (zoomStep) {
+    setLightboxZoom(zoomStep.closest('.pl-lightbox'), zoomStep.dataset.zoom);
+    return;
+  }
+
+  const lightboxThumb = event.target.closest('.pl-lightbox-thumb');
+  if (lightboxThumb) {
+    setLightboxIndex(lightboxThumb.closest('.pl-lightbox'), lightboxThumb.dataset.lightboxIndex);
   }
 });
 
 document.addEventListener('keydown', function (event) {
   if (event.key === 'Escape' && document.body.classList.contains('pl-info-drawer-open')) {
     closePlInfoDrawer();
+  }
+
+  const lightbox = document.querySelector('.pl-lightbox:not([hidden])');
+  if (!lightbox) return;
+
+  if (event.key === 'Escape') {
+    closeLightbox(lightbox);
+  } else if (event.key === 'ArrowRight') {
+    setLightboxIndex(lightbox, Number(lightbox.dataset.index || 0) + 1);
+  } else if (event.key === 'ArrowLeft') {
+    setLightboxIndex(lightbox, Number(lightbox.dataset.index || 0) - 1);
   }
 });
 
